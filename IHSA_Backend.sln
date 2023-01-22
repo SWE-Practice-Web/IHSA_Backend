@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHSA_Backend", "IHSA_Backend\IHSA_Backend.csproj", "{34BEC19D-0282-4D96-829E-6CF58654D84A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHSA_Backend", "IHSA_Backend.csproj", "{FA9D8E8E-A1FB-44DB-A48C-2357ADA207AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{34BEC19D-0282-4D96-829E-6CF58654D84A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{34BEC19D-0282-4D96-829E-6CF58654D84A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{34BEC19D-0282-4D96-829E-6CF58654D84A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{34BEC19D-0282-4D96-829E-6CF58654D84A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA9D8E8E-A1FB-44DB-A48C-2357ADA207AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA9D8E8E-A1FB-44DB-A48C-2357ADA207AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA9D8E8E-A1FB-44DB-A48C-2357ADA207AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA9D8E8E-A1FB-44DB-A48C-2357ADA207AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {18FB74A5-E90F-430E-A948-7E05B38E3BAC}
+		SolutionGuid = {D7FF112D-4197-48A2-97E7-39A4B70B3873}
 	EndGlobalSection
 EndGlobal
