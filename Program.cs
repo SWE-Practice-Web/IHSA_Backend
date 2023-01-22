@@ -4,7 +4,7 @@ using System.Text;
 using IHSA_Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-var _appSettings = new AppSettings(builder.Configuration);
+var appSettings = new AppSettings(builder.Configuration);
 
 {
     // Add services to the container.
@@ -26,10 +26,10 @@ var _appSettings = new AppSettings(builder.Configuration);
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = _appSettings.JWTIssuer,
-                ValidAudience = _appSettings.JWTAudience,
+                ValidIssuer = appSettings.JWTIssuer,
+                ValidAudience = appSettings.JWTAudience,
                 IssuerSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_appSettings.JWTSecret))
+                    Encoding.UTF8.GetBytes(appSettings.JWTSecret))
             };
         });
 }
