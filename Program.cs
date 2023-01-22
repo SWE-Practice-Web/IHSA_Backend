@@ -22,9 +22,6 @@ var appSettings = new AppSettings(builder.Configuration);
         {
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = appSettings.JWTIssuer,
                 ValidAudience = appSettings.JWTAudience,

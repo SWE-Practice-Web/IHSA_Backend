@@ -1,6 +1,6 @@
-namespace IHSA_Backend
+namespace IHSA_Backend.Models
 {
-    public class WeatherForecast
+    public class WeatherForecastModel
     {
         public DateTime Date { get; set; }
 
