@@ -16,6 +16,8 @@ var appSettings = new AppSettings(builder.Configuration);
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 
+    services.AddSingleton<IAppSettings>(appSettings);
+
     // JWT
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
