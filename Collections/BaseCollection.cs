@@ -4,7 +4,7 @@ using IHSA_Backend.Services;
 
 namespace IHSA_Backend.Collections
 {
-    public class BaseCollection
+    public class BaseCollection : IBaseCollection
     {
         private readonly CollectionReference _collectionRef;
         public BaseCollection(IFirestore firestore, String collectionName)
