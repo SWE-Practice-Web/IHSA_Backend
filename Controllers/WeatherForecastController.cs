@@ -1,3 +1,4 @@
+using IHSA_Backend.Collections;
 using IHSA_Backend.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,10 +16,14 @@ namespace IHSA_Backend.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private IUserCollection _userCollection;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(
+            ILogger<WeatherForecastController> logger,
+            IUserCollection userCollection)
         {
             _logger = logger;
+            _userCollection = userCollection;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -31,6 +36,22 @@ namespace IHSA_Backend.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        [HttpPost(Name = "TestDatabaseCreate")]
+        public void makeNewUser(UserRequestModel request)
+        {
+            // create new usermodel
+            var user = new UserModel();
+            user.Username = request.Username;
+            user.Email = request.Email;
+
+            // add to database
+            _userCollection.AddAsync(user);
+        }
+        [HttpGet("test", Name = "TestDatabaseGet")]
+        public async Task<IEnumerable<UserModel>> TestDatabaseGet()
+        {
+            return await _userCollection.GetAllAsync();
         }
     }
 }

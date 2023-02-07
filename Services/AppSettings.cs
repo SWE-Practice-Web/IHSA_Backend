@@ -19,5 +19,17 @@
         {
             get => _configuration["JWTSecret"];
         }
+        public String FirestoreProjectId
+        {
+            get => _configuration["FirestoreProjectId"];
+        }
+        public String GoogleApplicationCredentialsPath
+        {
+            get => _configuration["GoogleApplicationCredentialsPath"];
+        }
+        public String UserCollection
+        {
+            get => _configuration["UserCollection"];
+        }
     }
 }

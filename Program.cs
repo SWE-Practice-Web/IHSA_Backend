@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using IHSA_Backend.Services;
+using IHSA_Backend.Collections;
 
 var builder = WebApplication.CreateBuilder(args);
 var appSettings = new AppSettings(builder.Configuration);
@@ -17,6 +18,10 @@ var appSettings = new AppSettings(builder.Configuration);
     services.AddSwaggerGen();
 
     services.AddSingleton<IAppSettings>(appSettings);
+    services.AddSingleton<IFirestore, Firestore>();
+
+    // Collections
+    services.AddSingleton<IUserCollection, UserCollection>();
 
     // JWT
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
