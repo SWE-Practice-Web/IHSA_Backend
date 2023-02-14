@@ -7,9 +7,19 @@ namespace IHSA_Backend.Collections
     public class BaseCollection : IBaseCollection
     {
         private readonly CollectionReference _collectionRef;
+        private int nextAvailableId = 0;
         public BaseCollection(IFirestore firestore, String collectionName)
         {
             _collectionRef = firestore.GetCollection(collectionName);
+
+            var query = _collectionRef
+                .OrderByDescending("Id")
+                .Limit(1);
+
+            var snapshot = query.GetSnapshotAsync().Result;
+            if (snapshot.Count > 0)
+                nextAvailableId = snapshot[0].GetValue<int>("Id") + 1;
+            
         }
         public async Task<IEnumerable<T>> GetAllAsync<T>() where T : IBaseModel
         {
@@ -23,7 +33,7 @@ namespace IHSA_Backend.Collections
                 var entity = documentSnapshot.ConvertTo<T>();
                 if (entity != null)
                 {
-                    entity.Id = documentSnapshot.Id;
+                    entity.FirebaseId = documentSnapshot.Id;
                     list.Add(entity);
                 }
             }
@@ -32,7 +42,7 @@ namespace IHSA_Backend.Collections
         }
         public async Task<T?> GetAsync<T>(T entity) where T : IBaseModel
         {
-            var snapshot = await _collectionRef.Document(entity.Id).GetSnapshotAsync();
+            var snapshot = await _collectionRef.Document(entity.FirebaseId).GetSnapshotAsync();
 
             return snapshot.Exists ? snapshot.ConvertTo<T>() : default;
         }
@@ -40,19 +50,20 @@ namespace IHSA_Backend.Collections
         {
             var documentReference = await _collectionRef.AddAsync(entity);
 
-            entity.Id = documentReference.Id;
+            entity.FirebaseId = documentReference.Id;
+            entity.Id = nextAvailableId++;
 
             return entity;
         }
         public async Task<T> UpdateAsync<T>(T entity) where T : IBaseModel
         {
-            await _collectionRef.Document(entity.Id).SetAsync(entity, SetOptions.MergeAll);
+            await _collectionRef.Document(entity.FirebaseId).SetAsync(entity, SetOptions.MergeAll);
 
             return entity;
         }
         public async Task DeleteAsync<T>(T entity) where T : IBaseModel
         {
-            await _collectionRef.Document(entity.Id).DeleteAsync();
+            await _collectionRef.Document(entity.FirebaseId).DeleteAsync();
         }
     }
 }

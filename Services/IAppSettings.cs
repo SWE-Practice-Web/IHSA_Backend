@@ -8,5 +8,6 @@
         public String FirestoreProjectId { get; }
         public String GoogleApplicationCredentialsPath { get; }
         public String UserCollection { get; }
+        public String RiderCollection { get; }
     }
 }

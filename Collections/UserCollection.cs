@@ -9,7 +9,9 @@ namespace IHSA_Backend.Collections
     {
         private readonly IAppSettings _appSettings;
         private readonly IBaseCollection _baseCollection;
-        public UserCollection(IAppSettings appSettings, IFirestore firestore)
+        public UserCollection(
+            IAppSettings appSettings,
+            IFirestore firestore)
         {
             _appSettings = appSettings;
             _baseCollection = new BaseCollection(

@@ -31,5 +31,9 @@
         {
             get => _configuration["UserCollection"];
         }
+        public String RiderCollection
+        {
+            get => _configuration["RiderCollection"];
+        }
     }
 }
