@@ -7,29 +7,33 @@
         {
             _configuration = configuration;
         }
-        public String JWTIssuer
+        public string JWTIssuer
         {
             get => _configuration["JWTIssuer"];
         }
-        public String JWTAudience
+        public string JWTAudience
         {
             get => _configuration["JWTAudience"];
         }
-        public String JWTSecret
+        public string JWTSecret
         {
             get => _configuration["JWTSecret"];
         }
-        public String FirestoreProjectId
+        public string FirestoreProjectId
         {
             get => _configuration["FirestoreProjectId"];
         }
-        public String GoogleApplicationCredentialsPath
+        public string GoogleApplicationCredentialsPath
         {
             get => _configuration["GoogleApplicationCredentialsPath"];
         }
-        public String UserCollection
+        public string UserCollection
         {
             get => _configuration["UserCollection"];
+        }
+        public string RiderCollection
+        {
+            get => _configuration["RiderCollection"];
         }
     }
 }
