@@ -2,12 +2,12 @@
 {
     public interface IAppSettings
     {
-        public String JWTIssuer { get; }
-        public String JWTAudience { get; }
-        public String JWTSecret { get; }
-        public String FirestoreProjectId { get; }
-        public String GoogleApplicationCredentialsPath { get; }
-        public String UserCollection { get; }
-        public String RiderCollection { get; }
+        public string JWTIssuer { get; }
+        public string JWTAudience { get; }
+        public string JWTSecret { get; }
+        public string FirestoreProjectId { get; }
+        public string GoogleApplicationCredentialsPath { get; }
+        public string UserCollection { get; }
+        public string RiderCollection { get; }
     }
 }

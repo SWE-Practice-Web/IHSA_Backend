@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.Firestore;
 using IHSA_Backend.Models;
 using IHSA_Backend.Services;
+using IHSA_Backend.Constants;
 
 namespace IHSA_Backend.Collections
 {
@@ -8,12 +9,12 @@ namespace IHSA_Backend.Collections
     {
         private readonly CollectionReference _collectionRef;
         private int nextAvailableId = 0;
-        public BaseCollection(IFirestore firestore, String collectionName)
+        public BaseCollection(IFirestore firestore, string collectionName)
         {
             _collectionRef = firestore.GetCollection(collectionName);
 
             var query = _collectionRef
-                .OrderByDescending("Id")
+                .OrderByDescending(Constant.DatabaseId)
                 .Limit(1);
 
             var snapshot = query.GetSnapshotAsync().Result;
