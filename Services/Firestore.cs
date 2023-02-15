@@ -1,4 +1,5 @@
 ﻿using Google.Cloud.Firestore;
+using IHSA_Backend.Constants;
 
 namespace IHSA_Backend.Services
 {
@@ -11,7 +12,7 @@ namespace IHSA_Backend.Services
             _appSettings = appSettings;
 
             Environment.SetEnvironmentVariable(
-                "GOOGLE_APPLICATION_CREDENTIALS",
+                Constant.GACEnvironmentName,
                 _appSettings.GoogleApplicationCredentialsPath);
 
             _firestoreDb = FirestoreDb.Create(_appSettings.FirestoreProjectId);
