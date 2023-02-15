@@ -13,14 +13,13 @@ namespace IHSA_Backend.Collections
         {
             _collectionRef = firestore.GetCollection(collectionName);
 
-            var query = _collectionRef
-                .OrderByDescending(Constant.DatabaseId)
-                .Limit(1);
+            var maxDoc = _collectionRef.GetSnapshotAsync()
+                .Result
+                .Documents
+                .MaxBy(doc => doc.GetValue<int>(Constant.DatabaseId) + 1);
 
-            var snapshot = query.GetSnapshotAsync().Result;
-            if (snapshot.Count > 0)
-                nextAvailableId = snapshot[0].GetValue<int>("Id") + 1;
-            
+            if (maxDoc != null)
+                nextAvailableId = maxDoc.GetValue<int>(Constant.DatabaseId) + 1;
         }
         public async Task<IEnumerable<T>> GetAllAsync<T>() where T : IBaseModel
         {
@@ -49,10 +48,11 @@ namespace IHSA_Backend.Collections
         }
         public async Task<T> AddAsync<T>(T entity) where T : IBaseModel
         {
+            entity.Id = nextAvailableId++;
+
             var documentReference = await _collectionRef.AddAsync(entity);
 
             entity.FirebaseId = documentReference.Id;
-            entity.Id = nextAvailableId++;
 
             return entity;
         }
