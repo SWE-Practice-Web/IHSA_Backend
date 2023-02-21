@@ -37,7 +37,7 @@
         }
         public string EventCollection
         {
-            get => _configuration["EventsCollection"];
+            get => _configuration["EventCollection"];
         }
     }
 }
