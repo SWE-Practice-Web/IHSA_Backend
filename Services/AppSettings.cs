@@ -35,5 +35,9 @@
         {
             get => _configuration["RiderCollection"];
         }
+        public string EventCollection
+        {
+            get => _configuration["EventsCollection"];
+        }
     }
 }
