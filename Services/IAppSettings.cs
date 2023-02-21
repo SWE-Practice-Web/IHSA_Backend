@@ -10,5 +10,6 @@
         public string UserCollection { get; }
         public string RiderCollection { get; }
         public string SchoolCollection { get; }
+        public string EventCollection { get; }
     }
 }

@@ -39,5 +39,9 @@
         {
             get => _configuration["SchoolCollection"];
         }
+        public string EventCollection
+        {
+            get => _configuration["EventCollection"];
+        }
     }
 }
