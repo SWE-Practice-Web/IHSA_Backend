@@ -9,5 +9,6 @@
         public string GoogleApplicationCredentialsPath { get; }
         public string UserCollection { get; }
         public string RiderCollection { get; }
+        public string EventCollection { get; }
     }
 }
