@@ -23,6 +23,7 @@ var appSettings = new AppSettings(builder.Configuration);
     // Collections
     services.AddSingleton<IUserCollection, UserCollection>();
     services.AddSingleton<IRiderCollection, RiderCollection>();
+    services.AddSingleton<ISchoolCollection, SchoolCollection>();
 
     // JWT
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
