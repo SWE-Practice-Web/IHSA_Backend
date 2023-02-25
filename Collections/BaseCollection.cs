@@ -80,11 +80,28 @@ namespace IHSA_Backend.Collections
                 var entity = documentSnapshot.ConvertTo<T>();
                 if (entity.Id == id)
                 {
+                    entity.FirebaseId = documentSnapshot.Id;
                     return entity;
                 }
             }
 
             return default;
+        }
+        public async Task DeleteByIdAsync<T>(int id) where T : IBaseModel
+        {
+            var snapshot = await _collectionRef.GetSnapshotAsync();
+
+            foreach (var documentSnapshot in snapshot.Documents)
+            {
+                if (!documentSnapshot.Exists)
+                    continue;
+
+                var entityId = documentSnapshot.GetValue<int>(Constant.DatabaseId);
+                if (entityId == id)
+                {
+                    await _collectionRef.Document(documentSnapshot.Id).DeleteAsync();
+                }
+            }
         }
     }
 }

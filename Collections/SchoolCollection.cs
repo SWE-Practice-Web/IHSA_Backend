@@ -29,5 +29,7 @@ namespace IHSA_Backend.Collections
             _baseCollection.DeleteAsync<SchoolModel>(entity);
         public Task<SchoolModel?> GetByIdAsync(int id) =>
             _baseCollection.GetByIdAsync<SchoolModel>(id);
+        public Task DeleteByIdAsync(int id) =>
+            _baseCollection.DeleteByIdAsync<SchoolModel>(id);
     }
 }

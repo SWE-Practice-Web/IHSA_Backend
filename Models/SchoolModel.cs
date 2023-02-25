@@ -28,6 +28,7 @@ namespace IHSA_Backend.Models
     }
     public class SchoolRequestModel
     {
+        public int? Id { get; set; }
         public string? SchoolName { get; set; }
         public string? Location { get; set; }
         public double Latitude { get; set; }

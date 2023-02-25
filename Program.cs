@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using IHSA_Backend.Services;
 using IHSA_Backend.Collections;
+using IHSA_Backend.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 var appSettings = new AppSettings(builder.Configuration);
@@ -12,6 +13,7 @@ var appSettings = new AppSettings(builder.Configuration);
     var services = builder.Services;
 
     services.AddControllers();
+    services.AddAutoMapper(typeof(Program));
 
     // Swagger
     services.AddEndpointsApiExplorer();
