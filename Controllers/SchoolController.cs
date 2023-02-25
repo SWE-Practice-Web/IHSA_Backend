@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IHSA_Backend.Collections;
+using IHSA_Backend.Constants;
 using IHSA_Backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,9 @@ namespace IHSA_Backend.Controllers
         [HttpPost("[action]")]
         public IActionResult Create(SchoolRequestModel schoolRequest)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var school = _mapper.Map<SchoolModel>(schoolRequest);
 
             _schoolCollection.AddAsync(school);
@@ -44,9 +48,8 @@ namespace IHSA_Backend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            if (id < 0)
-                return BadRequest("Invalid id");
-
+            if (IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
 
             var school = await _schoolCollection.GetByIdAsync(id);
             if (school == null || school.Equals(default(SchoolModel)))
@@ -58,11 +61,11 @@ namespace IHSA_Backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, SchoolRequestModel schoolRequest)
         {
-            if (id < 0)
-                return BadRequest("Invalid id");
+            if (IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
 
-            if (schoolRequest == null || schoolRequest.Equals(default(SchoolModel)))
-                return BadRequest("Invalid school data");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             var existingSchool = await _schoolCollection.GetByIdAsync(id);
             
@@ -82,8 +85,8 @@ namespace IHSA_Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            if (id < 0)
-                return BadRequest("Invalid id");
+            if (IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
 
             var existingSchool = await _schoolCollection.GetByIdAsync(id);
             if (existingSchool == null || existingSchool.Equals(default(SchoolModel)))
@@ -92,6 +95,10 @@ namespace IHSA_Backend.Controllers
             await _schoolCollection.DeleteByIdAsync(id);
 
             return NoContent();
+        }
+        private bool IsInvalidId(int id)
+        {
+            return id < 0;
         }
     }
 }
