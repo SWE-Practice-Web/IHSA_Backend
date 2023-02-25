@@ -9,5 +9,6 @@ namespace IHSA_Backend.Collections
         public Task<EventModel> AddAsync(EventModel entity);
         public Task<EventModel> UpdateAsync(EventModel entity);
         public Task DeleteAsync(EventModel entity);
+        public Task<EventModel?> GetByIdAsync(int id);
     }
 }

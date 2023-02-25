@@ -32,14 +32,33 @@ namespace IHSA_Backend.Controllers
 
             _schoolCollection.AddAsync(school);
 
-            return Ok();
+            return Ok(school);
         }
+
         [HttpGet]
-        public IEnumerable<SchoolModel> ViewAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            {
-                return _schoolCollection.GetAllAsync().Result;
-            }
+            var schools = await _schoolCollection.GetAllAsync();
+
+            if (schools == null || !schools.Any())
+                return NotFound();
+
+            return Ok(schools);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAsync(int id)
+        {
+            if (id < 0)
+                return BadRequest("Invalid id");
+
+
+            var school = await _schoolCollection.GetByIdAsync(id);
+            if (school == null || school.Equals(default(SchoolModel)))
+                return NotFound();
+
+            return Ok(school);
+        }
+
     }
 }

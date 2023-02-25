@@ -9,5 +9,6 @@ namespace IHSA_Backend.Collections
         public Task<T> AddAsync<T>(T entity) where T : IBaseModel;
         public Task<T> UpdateAsync<T>(T entity) where T : IBaseModel;
         public Task DeleteAsync<T>(T entity) where T : IBaseModel;
+        public Task<T?> GetByIdAsync<T>(int id) where T : IBaseModel;
     }
 }

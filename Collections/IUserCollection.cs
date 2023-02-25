@@ -9,5 +9,6 @@ namespace IHSA_Backend.Collections
         public Task<UserModel> AddAsync(UserModel entity);
         public Task<UserModel> UpdateAsync(UserModel entity);
         public Task DeleteAsync(UserModel entity);
+        public Task<UserModel?> GetByIdAsync(int id);
     }
 }

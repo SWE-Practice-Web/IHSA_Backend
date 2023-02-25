@@ -27,5 +27,7 @@ namespace IHSA_Backend.Collections
             _baseCollection.UpdateAsync<EventModel>(entity);
         public Task DeleteAsync(EventModel entity) =>
             _baseCollection.DeleteAsync<EventModel>(entity);
+        public Task<EventModel?> GetByIdAsync(int id) =>
+            _baseCollection.GetByIdAsync<EventModel>(id);
     }
 }

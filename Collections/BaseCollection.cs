@@ -2,6 +2,8 @@
 using IHSA_Backend.Models;
 using IHSA_Backend.Services;
 using IHSA_Backend.Constants;
+using static Grpc.Core.Metadata;
+using System.Collections.Generic;
 
 namespace IHSA_Backend.Collections
 {
@@ -65,6 +67,24 @@ namespace IHSA_Backend.Collections
         public async Task DeleteAsync<T>(T entity) where T : IBaseModel
         {
             await _collectionRef.Document(entity.FirebaseId).DeleteAsync();
+        }
+        public async Task<T?> GetByIdAsync<T>(int id) where T : IBaseModel
+        {
+            var snapshot = await _collectionRef.GetSnapshotAsync();
+
+            foreach (var documentSnapshot in snapshot.Documents)
+            {
+                if (!documentSnapshot.Exists)
+                    continue;
+
+                var entity = documentSnapshot.ConvertTo<T>();
+                if (entity.Id == id)
+                {
+                    return entity;
+                }
+            }
+
+            return default;
         }
     }
 }
