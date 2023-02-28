@@ -12,7 +12,7 @@ namespace IHSA_Backend.Models
         [FirestoreProperty]
         public string? SchoolName { get; set; }
         [FirestoreProperty]
-        public string? Location { get; set; }
+        public string? StateCode { get; set; }
         [FirestoreProperty]
         public double Latitude { get; set; }
         [FirestoreProperty]
@@ -30,7 +30,7 @@ namespace IHSA_Backend.Models
     {
         public int? Id { get; set; }
         public string? SchoolName { get; set; }
-        public string? Location { get; set; }
+        public string? StateCode { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public int Region { get; set; }
