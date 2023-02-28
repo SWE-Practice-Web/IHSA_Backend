@@ -25,5 +25,9 @@ namespace IHSA_Backend.Collections
             _baseCollection.UpdateAsync<RiderModel>(entity);
         public Task DeleteAsync(RiderModel entity) =>
             _baseCollection.DeleteAsync<RiderModel>(entity);
+        public Task<RiderModel?> GetByIdAsync(int id) =>
+            _baseCollection.GetByIdAsync<RiderModel>(id);
+        public Task DeleteByIdAsync(int id) =>
+            _baseCollection.DeleteByIdAsync<RiderModel>(id);
     }
 }

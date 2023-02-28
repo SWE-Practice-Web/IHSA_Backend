@@ -14,16 +14,16 @@ namespace IHSA_Backend.Models
         [FirestoreProperty]
         public double? Weight { get; set; }
         [FirestoreProperty]
-        public IEnumerable<string> ManagedBy { get; set; }
+        public IEnumerable<int>? ManagedBy { get; set; }
         [FirestoreProperty]
-        public string PlaysFor { get; set; }
+        public string? PlaysFor { get; set; }
     }
     public class RiderRequestModel : UserRequestModel
     {
         public bool isHeightWeightRider { get; set; }
         public double? Height { get; set; }
         public double? Weight { get; set; }
-        public IEnumerable<string> ManagedBy { get; set; }
-        public string PlaysFor { get; set; }
+        public IEnumerable<int>? ManagedBy { get; set; }
+        public string? PlaysFor { get; set; }
     }
 }

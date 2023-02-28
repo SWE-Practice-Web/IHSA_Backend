@@ -4,5 +4,6 @@
     {
         public const string DatabaseId = "Id";
         public const string GACEnvironmentName = "GOOGLE_APPLICATION_CREDENTIALS";
+        public const string InvalidId = "Invalid id";
     }
 }
