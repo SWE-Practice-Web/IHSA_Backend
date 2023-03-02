@@ -2,8 +2,6 @@
 using IHSA_Backend.Models;
 using IHSA_Backend.Services;
 using IHSA_Backend.Constants;
-using static Grpc.Core.Metadata;
-using System.Collections.Generic;
 
 namespace IHSA_Backend.Collections
 {

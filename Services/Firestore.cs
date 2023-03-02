@@ -11,10 +11,23 @@ namespace IHSA_Backend.Services
         {
             _appSettings = appSettings;
 
-            Environment.SetEnvironmentVariable(
-                Constant.GACEnvironmentName,
-                _appSettings.GoogleApplicationCredentialsPath);
+            if (Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name) != null)
+            {
+                // Workaround for docker support
+                var tempFile = Path.GetTempFileName();
 
+                tempFile = Path.ChangeExtension(tempFile, "json");
+
+                File.WriteAllBytes(tempFile, 
+                    Convert.FromBase64String(Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name)));
+
+                Environment.SetEnvironmentVariable(Constant.GACEnvironmentName, tempFile);
+            }
+            else
+                Environment.SetEnvironmentVariable(
+                    Constant.GACEnvironmentName,
+                    _appSettings.GoogleApplicationCredentialsPath);
+            
             _firestoreDb = FirestoreDb.Create(_appSettings.FirestoreProjectId);
         }
         public CollectionReference GetCollection(string collection)

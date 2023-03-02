@@ -11,6 +11,7 @@ COPY ["IHSA_Backend.csproj", "."]
 RUN dotnet restore "./IHSA_Backend.csproj"
 COPY . .
 WORKDIR "/src/."
+
 RUN dotnet build "IHSA_Backend.csproj" -c Release -o /app/build
 
 FROM build AS publish
