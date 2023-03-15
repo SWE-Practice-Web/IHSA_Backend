@@ -15,7 +15,7 @@ namespace IHSA_Backend.Controllers
         private readonly IRiderCollection _riderCollection;
         public RiderController(
             IMapper mapper,
-            RiderCollection riderCollection)
+            IRiderCollection riderCollection)
         {
             _mapper = mapper;
             _riderCollection = riderCollection;
