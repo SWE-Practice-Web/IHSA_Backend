@@ -5,6 +5,7 @@
         public const string DatabaseId = "Id";
         public const string GACEnvironmentName = "GOOGLE_APPLICATION_CREDENTIALS";
         public const string GACEnvironmentB64Name = "GOOGLE_APPLICATION_CREDENTIALS_BASE64";
+        public const string FirestoreIdEnvironmentName = "FIRESTORE_PROJECT_ID";
         public const string InvalidId = "Invalid id";
     }
 }

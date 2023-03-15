@@ -11,6 +11,8 @@ namespace IHSA_Backend.Services
         {
             _appSettings = appSettings;
 
+            string firestoreId;
+
             if (Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name) != null)
             {
                 // Workaround for docker support
@@ -22,13 +24,19 @@ namespace IHSA_Backend.Services
                     Convert.FromBase64String(Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name)));
 
                 Environment.SetEnvironmentVariable(Constant.GACEnvironmentName, tempFile);
+
+                firestoreId = Environment.GetEnvironmentVariable(Constant.FirestoreIdEnvironmentName);
             }
             else
+            {
                 Environment.SetEnvironmentVariable(
                     Constant.GACEnvironmentName,
                     _appSettings.GoogleApplicationCredentialsPath);
+
+                firestoreId = _appSettings.FirestoreProjectId;
+            }
             
-            _firestoreDb = FirestoreDb.Create(_appSettings.FirestoreProjectId);
+            _firestoreDb = FirestoreDb.Create(firestoreId);
         }
         public CollectionReference GetCollection(string collection)
         {
