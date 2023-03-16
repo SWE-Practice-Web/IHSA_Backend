@@ -74,8 +74,7 @@ namespace IHSA_Backend.Controllers
 
             var _event = _mapper.Map<EventModel>(eventRequest);
 
-            _event.FirebaseId = existingEvent.FirebaseId;
-            _event.Id = existingEvent.Id;
+            _event.Id = id;
 
             await _eventCollection.UpdateAsync(_event);
 
