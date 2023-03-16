@@ -20,12 +20,14 @@ namespace IHSA_Backend.Services
 
                 tempFile = Path.ChangeExtension(tempFile, "json");
 
+                var b64GAC = Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name) ?? string.Empty;
+
                 File.WriteAllBytes(tempFile, 
-                    Convert.FromBase64String(Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name)));
+                    Convert.FromBase64String(b64GAC));
 
                 Environment.SetEnvironmentVariable(Constant.GACEnvironmentName, tempFile);
 
-                firestoreId = Environment.GetEnvironmentVariable(Constant.FirestoreIdEnvironmentName);
+                firestoreId = Environment.GetEnvironmentVariable(Constant.FirestoreIdEnvironmentName) ?? string.Empty;
             }
             else
             {

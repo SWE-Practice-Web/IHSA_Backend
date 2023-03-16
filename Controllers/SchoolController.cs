@@ -73,9 +73,7 @@ namespace IHSA_Backend.Controllers
                 return NotFound();
 
             var school = _mapper.Map<SchoolModel>(schoolRequest);
-
-            school.FirebaseId = existingSchool.FirebaseId;
-            school.Id = existingSchool.Id;
+            school.Id = id;
 
             await _schoolCollection.UpdateAsync(school);
 

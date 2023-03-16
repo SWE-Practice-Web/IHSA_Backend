@@ -74,8 +74,7 @@ namespace IHSA_Backend.Controllers
 
             var rider = _mapper.Map<RiderModel>(riderRequest);
 
-            rider.FirebaseId = existingRider.FirebaseId;
-            rider.Id = existingRider.Id;
+            rider.Id = id;
 
             await _riderCollection.UpdateAsync(rider);
 
