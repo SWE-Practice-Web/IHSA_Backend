@@ -5,11 +5,9 @@ namespace IHSA_Backend.Collections
     public interface ISchoolCollection
     {
         public Task<IEnumerable<SchoolModel>> GetAllAsync();
-        public Task<SchoolModel?> GetAsync(SchoolModel entity);
+        public Task<SchoolModel?> GetAsync(int id);
         public Task<SchoolModel> AddAsync(SchoolModel entity);
         public Task<SchoolModel> UpdateAsync(SchoolModel entity);
-        public Task DeleteAsync(SchoolModel entity);
-        public Task<SchoolModel?> GetByIdAsync(int id);
-        public Task DeleteByIdAsync(int id);
+        public Task DeleteAsync(int id);
     }
 }

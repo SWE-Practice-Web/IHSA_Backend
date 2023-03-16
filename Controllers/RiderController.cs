@@ -51,7 +51,7 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var rider = await _riderCollection.GetByIdAsync(id);
+            var rider = await _riderCollection.GetAsync(id);
             if (rider == null || rider.Equals(default(RiderModel)))
                 return NotFound();
 
@@ -67,7 +67,7 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingRider = await _riderCollection.GetByIdAsync(id);
+            var existingRider = await _riderCollection.GetAsync(id);
 
             if (existingRider == null || existingRider.Equals(default(RiderModel)))
                 return NotFound();
@@ -87,11 +87,11 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var existingRider = await _riderCollection.GetByIdAsync(id);
+            var existingRider = await _riderCollection.GetAsync(id);
             if (existingRider == null || existingRider.Equals(default(RiderModel)))
                 return NotFound();
 
-            await _riderCollection.DeleteByIdAsync(id);
+            await _riderCollection.DeleteAsync(id);
 
             return NoContent();
         }

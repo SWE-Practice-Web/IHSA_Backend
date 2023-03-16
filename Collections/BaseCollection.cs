@@ -37,9 +37,9 @@ namespace IHSA_Backend.Collections
 
             return list;
         }
-        public async Task<T?> GetAsync<T>(T entity) where T : IBaseModel
+        public async Task<T?> GetAsync<T>(int id) where T : IBaseModel
         {
-            var snapshot = await _collectionRef.Document(entity.Id.ToString()).GetSnapshotAsync();
+            var snapshot = await _collectionRef.Document(id.ToString()).GetSnapshotAsync();
 
             return snapshot.Exists ? snapshot.ConvertTo<T>() : default;
         }
@@ -58,24 +58,9 @@ namespace IHSA_Backend.Collections
 
             return entity;
         }
-        public async Task DeleteAsync<T>(T entity) where T : IBaseModel
+        public async Task DeleteAsync<T>(int id) where T : IBaseModel
         {
-            await _collectionRef.Document(entity.Id.ToString()).DeleteAsync();
-        }
-        public async Task<T?> GetByIdAsync<T>(int id) where T : IBaseModel
-        {
-            var docReference = _collectionRef.Document(id.ToString());
-            var snapshot = await docReference.GetSnapshotAsync();
-
-            if (snapshot.Exists && snapshot.GetValue<int>(Constant.DatabaseId) == id)
-                return snapshot.ConvertTo<T>();
-
-            return default;
-        }
-        public async Task DeleteByIdAsync<T>(int id) where T : IBaseModel
-        {
-            var docReference = _collectionRef.Document(id.ToString());
-            await docReference.DeleteAsync();
+            await _collectionRef.Document(id.ToString()).DeleteAsync();
         }
     }
 }

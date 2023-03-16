@@ -17,17 +17,13 @@ namespace IHSA_Backend.Collections
         }
         public Task<IEnumerable<RiderModel>> GetAllAsync() =>
             _baseCollection.GetAllAsync<RiderModel>();
-        public Task<RiderModel?> GetAsync(RiderModel entity) =>
-            _baseCollection.GetAsync<RiderModel>(entity);
+        public Task<RiderModel?> GetAsync(int id) =>
+            _baseCollection.GetAsync<RiderModel>(id);
         public Task<RiderModel> AddAsync(RiderModel entity) =>
             _baseCollection.AddAsync<RiderModel>(entity);
         public Task<RiderModel> UpdateAsync(RiderModel entity) =>
             _baseCollection.UpdateAsync<RiderModel>(entity);
-        public Task DeleteAsync(RiderModel entity) =>
-            _baseCollection.DeleteAsync<RiderModel>(entity);
-        public Task<RiderModel?> GetByIdAsync(int id) =>
-            _baseCollection.GetByIdAsync<RiderModel>(id);
-        public Task DeleteByIdAsync(int id) =>
-            _baseCollection.DeleteByIdAsync<RiderModel>(id);
+        public Task DeleteAsync(int id) =>
+            _baseCollection.DeleteAsync<RiderModel>(id);
     }
 }

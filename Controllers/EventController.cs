@@ -51,7 +51,7 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var _event = await _eventCollection.GetByIdAsync(id);
+            var _event = await _eventCollection.GetAsync(id);
             if (_event == null || _event.Equals(default(EventModel)))
                 return NotFound();
 
@@ -67,7 +67,7 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingEvent = await _eventCollection.GetByIdAsync(id);
+            var existingEvent = await _eventCollection.GetAsync(id);
             
             if (existingEvent == null || existingEvent.Equals(default(EventModel)))
                 return NotFound();
@@ -87,11 +87,11 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var existingEvent = await _eventCollection.GetByIdAsync(id);
+            var existingEvent = await _eventCollection.GetAsync(id);
             if (existingEvent == null || existingEvent.Equals(default(EventModel)))
                 return NotFound();
 
-            await _eventCollection.DeleteByIdAsync(id);
+            await _eventCollection.DeleteAsync(id);
 
             return NoContent();
         }

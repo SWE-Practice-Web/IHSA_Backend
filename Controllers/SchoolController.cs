@@ -51,7 +51,7 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var school = await _schoolCollection.GetByIdAsync(id);
+            var school = await _schoolCollection.GetAsync(id);
             if (school == null || school.Equals(default(SchoolModel)))
                 return NotFound();
 
@@ -67,7 +67,7 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingSchool = await _schoolCollection.GetByIdAsync(id);
+            var existingSchool = await _schoolCollection.GetAsync(id);
             
             if (existingSchool == null || existingSchool.Equals(default(SchoolModel)))
                 return NotFound();
@@ -86,11 +86,11 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var existingSchool = await _schoolCollection.GetByIdAsync(id);
+            var existingSchool = await _schoolCollection.GetAsync(id);
             if (existingSchool == null || existingSchool.Equals(default(SchoolModel)))
                 return NotFound();
 
-            await _schoolCollection.DeleteByIdAsync(id);
+            await _schoolCollection.DeleteAsync(id);
 
             return NoContent();
         }

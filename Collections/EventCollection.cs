@@ -19,17 +19,13 @@ namespace IHSA_Backend.Collections
         }
         public Task<IEnumerable<EventModel>> GetAllAsync() =>
             _baseCollection.GetAllAsync<EventModel>();
-        public Task<EventModel?> GetAsync(EventModel entity) =>
-            _baseCollection.GetAsync<EventModel>(entity);
+        public Task<EventModel?> GetAsync(int id) =>
+            _baseCollection.GetAsync<EventModel>(id);
         public Task<EventModel> AddAsync(EventModel entity) =>
             _baseCollection.AddAsync<EventModel>(entity);
         public Task<EventModel> UpdateAsync(EventModel entity) =>
             _baseCollection.UpdateAsync<EventModel>(entity);
-        public Task DeleteAsync(EventModel entity) =>
-            _baseCollection.DeleteAsync<EventModel>(entity);
-        public Task<EventModel?> GetByIdAsync(int id) =>
-            _baseCollection.GetByIdAsync<EventModel>(id);
-        public Task DeleteByIdAsync(int id) =>
-            _baseCollection.DeleteByIdAsync<EventModel>(id);
+        public Task DeleteAsync(int id) =>
+            _baseCollection.DeleteAsync<EventModel>(id);
     }
 }
