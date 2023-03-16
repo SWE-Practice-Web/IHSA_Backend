@@ -26,6 +26,7 @@ var appSettings = new AppSettings(builder.Configuration);
     services.AddSingleton<IUserCollection, UserCollection>();
     services.AddSingleton<IRiderCollection, RiderCollection>();
     services.AddSingleton<ISchoolCollection, SchoolCollection>();
+    services.AddSingleton<IEventCollection, EventCollection>();
 
     // JWT
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
