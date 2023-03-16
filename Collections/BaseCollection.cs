@@ -9,9 +9,9 @@ namespace IHSA_Backend.Collections
     {
         private readonly CollectionReference _collectionRef;
         private int nextAvailableId = 0;
-        public BaseCollection(IFirestore firestore, string collectionName)
+        public BaseCollection(CollectionReference collectionRef)
         {
-            _collectionRef = firestore.GetCollection(collectionName);
+            _collectionRef = collectionRef;
 
             var maxDoc = _collectionRef.GetSnapshotAsync()
                 .Result

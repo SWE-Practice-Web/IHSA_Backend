@@ -22,6 +22,7 @@ namespace IHSA_Backend.Models
     }
     public class RiderRequestModel : UserRequestModel
     {
+        public int? Id { get; set; }
         public bool isHeightWeightRider { get; set; }
         public double? Height { get; set; }
         public double? Weight { get; set; }
