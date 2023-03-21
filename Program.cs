@@ -41,6 +41,7 @@ var appSettings = new AppSettings(builder.Configuration);
                     Encoding.UTF8.GetBytes(appSettings.JWTSecret))
             };
         });
+    services.AddAuthorization();
 }
 
 // Application Configuration
@@ -55,8 +56,10 @@ var app = builder.Build();
     }
 
     app.UseHttpsRedirection();
-    app.UseAuthorization();
+
+    // JWT
     app.UseAuthentication();
+    app.UseAuthorization();
 
     app.MapControllers();
 }

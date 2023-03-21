@@ -2,6 +2,7 @@
 using IHSA_Backend.Models;
 using IHSA_Backend.Services;
 using System.Collections;
+using System.Reflection;
 
 namespace IHSA_Backend.Collections
 {
@@ -29,8 +30,16 @@ namespace IHSA_Backend.Collections
 
             return entity;
         }
-        public Task<RiderModel> UpdateAsync(RiderModel entity) =>
-            _baseCollection.UpdateAsync<RiderModel>(entity);
+        public async Task<RiderModel> UpdateAsync(RiderModel entity)
+        {
+            var properties = typeof(RiderModel).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var fields = (string[])properties.Where(p => p.Name != nameof(RiderModel.Password)).Select(p => p.Name);
+
+            var docReference = _collectionRef.Document(entity.Id.ToString());
+            await docReference.SetAsync(entity, SetOptions.MergeFields(fields));
+
+            return entity;
+        }
         public Task DeleteAsync(int id) =>
             _baseCollection.DeleteAsync<RiderModel>(id);
     }

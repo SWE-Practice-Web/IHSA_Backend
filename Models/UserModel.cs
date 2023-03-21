@@ -11,6 +11,8 @@ namespace IHSA_Backend.Models
         [FirestoreProperty]
         public string? Username { get; set; }
         [FirestoreProperty]
+        public string? Password { get; set; }
+        [FirestoreProperty]
         public string? FirstName { get; set; }
         [FirestoreProperty]
         public string? LastName { get; set; }
