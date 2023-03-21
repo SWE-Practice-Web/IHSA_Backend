@@ -9,9 +9,9 @@ namespace IHSA_Backend.Collections
     {
         private readonly CollectionReference _collectionRef;
         private int nextAvailableId = 0;
-        public BaseCollection(IFirestore firestore, string collectionName)
+        public BaseCollection(CollectionReference collectionRef)
         {
-            _collectionRef = firestore.GetCollection(collectionName);
+            _collectionRef = collectionRef;
 
             var maxDoc = _collectionRef.GetSnapshotAsync()
                 .Result
@@ -32,17 +32,14 @@ namespace IHSA_Backend.Collections
 
                 var entity = documentSnapshot.ConvertTo<T>();
                 if (entity != null)
-                {
-                    entity.FirebaseId = documentSnapshot.Id;
                     list.Add(entity);
-                }
             }
 
             return list;
         }
-        public async Task<T?> GetAsync<T>(T entity) where T : IBaseModel
+        public async Task<T?> GetAsync<T>(int id) where T : IBaseModel
         {
-            var snapshot = await _collectionRef.Document(entity.FirebaseId).GetSnapshotAsync();
+            var snapshot = await _collectionRef.Document(id.ToString()).GetSnapshotAsync();
 
             return snapshot.Exists ? snapshot.ConvertTo<T>() : default;
         }
@@ -50,56 +47,20 @@ namespace IHSA_Backend.Collections
         {
             entity.Id = nextAvailableId++;
 
-            var documentReference = await _collectionRef.AddAsync(entity);
-
-            entity.FirebaseId = documentReference.Id;
+            var docReference = _collectionRef.Document(entity.Id.ToString());
+            await docReference.CreateAsync(entity);
 
             return entity;
         }
         public async Task<T> UpdateAsync<T>(T entity) where T : IBaseModel
         {
-            await _collectionRef.Document(entity.FirebaseId).SetAsync(entity, SetOptions.MergeAll);
+            await _collectionRef.Document(entity.Id.ToString()).SetAsync(entity, SetOptions.MergeAll);
 
             return entity;
         }
-        public async Task DeleteAsync<T>(T entity) where T : IBaseModel
+        public async Task DeleteAsync<T>(int id) where T : IBaseModel
         {
-            await _collectionRef.Document(entity.FirebaseId).DeleteAsync();
-        }
-        public async Task<T?> GetByIdAsync<T>(int id) where T : IBaseModel
-        {
-            var snapshot = await _collectionRef.GetSnapshotAsync();
-
-            foreach (var documentSnapshot in snapshot.Documents)
-            {
-                if (!documentSnapshot.Exists)
-                    continue;
-
-                var entity = documentSnapshot.ConvertTo<T>();
-                if (entity.Id == id)
-                {
-                    entity.FirebaseId = documentSnapshot.Id;
-                    return entity;
-                }
-            }
-
-            return default;
-        }
-        public async Task DeleteByIdAsync<T>(int id) where T : IBaseModel
-        {
-            var snapshot = await _collectionRef.GetSnapshotAsync();
-
-            foreach (var documentSnapshot in snapshot.Documents)
-            {
-                if (!documentSnapshot.Exists)
-                    continue;
-
-                var entityId = documentSnapshot.GetValue<int>(Constant.DatabaseId);
-                if (entityId == id)
-                {
-                    await _collectionRef.Document(documentSnapshot.Id).DeleteAsync();
-                }
-            }
+            await _collectionRef.Document(id.ToString()).DeleteAsync();
         }
     }
 }

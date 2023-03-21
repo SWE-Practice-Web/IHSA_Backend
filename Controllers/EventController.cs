@@ -9,40 +9,40 @@ namespace IHSA_Backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RiderController : ControllerBase
+    public class EventController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IRiderCollection _riderCollection;
-        public RiderController(
+        private readonly IEventCollection _eventCollection;
+        public EventController(
             IMapper mapper,
-            IRiderCollection riderCollection)
+            IEventCollection eventCollection)
         {
             _mapper = mapper;
-            _riderCollection = riderCollection;
+            _eventCollection = eventCollection;
         }
 
         [HttpPost("[action]")]
-        public IActionResult Create(RiderRequestModel riderRequest)
+        public IActionResult Create(EventRequestModel eventRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var rider = _mapper.Map<RiderModel>(riderRequest);
+            var _event = _mapper.Map<EventModel>(eventRequest);
 
-            _riderCollection.AddAsync(rider);
+            _eventCollection.AddAsync(_event);
 
-            return Ok(_mapper.Map<RiderRequestModel>(rider));
+            return Ok(_mapper.Map<EventRequestModel>(_event));
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var riders = await _riderCollection.GetAllAsync();
+            var _event = await _eventCollection.GetAllAsync();
 
-            if (riders == null || !riders.Any())
+            if (_event == null || !_event.Any())
                 return NotFound();
 
-            return Ok(_mapper.Map<IEnumerable<RiderRequestModel>>(riders));
+            return Ok(_mapper.Map<IEnumerable<EventRequestModel>>(_event));
         }
 
         [HttpGet("{id}")]
@@ -51,15 +51,15 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var rider = await _riderCollection.GetAsync(id);
-            if (rider == null || rider.Equals(default(RiderModel)))
+            var _event = await _eventCollection.GetAsync(id);
+            if (_event == null || _event.Equals(default(EventModel)))
                 return NotFound();
 
-            return Ok(_mapper.Map<RiderRequestModel>(rider));
+            return Ok(_mapper.Map<EventRequestModel>(_event));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAsync(int id, RiderRequestModel riderRequest)
+        public async Task<IActionResult> UpdateAsync(int id, EventRequestModel eventRequest)
         {
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
@@ -67,16 +67,16 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingRider = await _riderCollection.GetAsync(id);
-
-            if (existingRider == null || existingRider.Equals(default(RiderModel)))
+            var existingEvent = await _eventCollection.GetAsync(id);
+            
+            if (existingEvent == null || existingEvent.Equals(default(EventModel)))
                 return NotFound();
 
-            var rider = _mapper.Map<RiderModel>(riderRequest);
+            var _event = _mapper.Map<EventModel>(eventRequest);
 
-            rider.Id = id;
+            _event.Id = id;
 
-            await _riderCollection.UpdateAsync(rider);
+            await _eventCollection.UpdateAsync(_event);
 
             return NoContent();
         }
@@ -87,11 +87,11 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var existingRider = await _riderCollection.GetAsync(id);
-            if (existingRider == null || existingRider.Equals(default(RiderModel)))
+            var existingEvent = await _eventCollection.GetAsync(id);
+            if (existingEvent == null || existingEvent.Equals(default(EventModel)))
                 return NotFound();
 
-            await _riderCollection.DeleteAsync(id);
+            await _eventCollection.DeleteAsync(id);
 
             return NoContent();
         }

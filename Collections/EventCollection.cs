@@ -8,28 +8,25 @@ namespace IHSA_Backend.Collections
     public class EventCollection : IEventCollection
     {
         private readonly IAppSettings _appSettings;
+        private readonly CollectionReference _collectionRef;
         private readonly IBaseCollection _baseCollection;
         public EventCollection(
             IAppSettings appSettings,
             IFirestore firestore)
         {
             _appSettings = appSettings;
-            _baseCollection = new BaseCollection(
-                firestore, appSettings.EventCollection);
+            _collectionRef = firestore.GetCollection(appSettings.EventCollection);
+            _baseCollection = new BaseCollection(_collectionRef);
         }
         public Task<IEnumerable<EventModel>> GetAllAsync() =>
             _baseCollection.GetAllAsync<EventModel>();
-        public Task<EventModel?> GetAsync(EventModel entity) =>
-            _baseCollection.GetAsync<EventModel>(entity);
+        public Task<EventModel?> GetAsync(int id) =>
+            _baseCollection.GetAsync<EventModel>(id);
         public Task<EventModel> AddAsync(EventModel entity) =>
             _baseCollection.AddAsync<EventModel>(entity);
         public Task<EventModel> UpdateAsync(EventModel entity) =>
             _baseCollection.UpdateAsync<EventModel>(entity);
-        public Task DeleteAsync(EventModel entity) =>
-            _baseCollection.DeleteAsync<EventModel>(entity);
-        public Task<EventModel?> GetByIdAsync(int id) =>
-            _baseCollection.GetByIdAsync<EventModel>(id);
-        public Task DeleteByIdAsync(int id) =>
-            _baseCollection.DeleteByIdAsync<EventModel>(id);
+        public Task DeleteAsync(int id) =>
+            _baseCollection.DeleteAsync<EventModel>(id);
     }
 }

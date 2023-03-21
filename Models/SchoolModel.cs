@@ -6,7 +6,6 @@ namespace IHSA_Backend.Models
     [FirestoreData]
     public class SchoolModel : IBaseModel
     {
-        public string? FirebaseId { get; set; }
         [FirestoreProperty]
         public int Id { get; set; }
         [FirestoreProperty]
@@ -28,7 +27,6 @@ namespace IHSA_Backend.Models
     }
     public class SchoolRequestModel
     {
-        public int? Id { get; set; }
         public string? SchoolName { get; set; }
         public string? StateCode { get; set; }
         public double Latitude { get; set; }

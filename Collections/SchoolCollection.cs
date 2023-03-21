@@ -8,28 +8,25 @@ namespace IHSA_Backend.Collections
     public class SchoolCollection : ISchoolCollection
     {
         private readonly IAppSettings _appSettings;
+        private readonly CollectionReference _collectionRef;
         private readonly IBaseCollection _baseCollection;
         public SchoolCollection(
             IAppSettings appSettings,
             IFirestore firestore)
         {
             _appSettings = appSettings;
-            _baseCollection = new BaseCollection(
-                firestore, appSettings.SchoolCollection);
+            _collectionRef = firestore.GetCollection(appSettings.SchoolCollection);
+            _baseCollection = new BaseCollection(_collectionRef);
         }
         public Task<IEnumerable<SchoolModel>> GetAllAsync() =>
             _baseCollection.GetAllAsync<SchoolModel>();
-        public Task<SchoolModel?> GetAsync(SchoolModel entity) =>
-            _baseCollection.GetAsync<SchoolModel>(entity);
+        public Task<SchoolModel?> GetAsync(int id) =>
+            _baseCollection.GetAsync<SchoolModel>(id);
         public Task<SchoolModel> AddAsync(SchoolModel entity) =>
             _baseCollection.AddAsync<SchoolModel>(entity);
         public Task<SchoolModel> UpdateAsync(SchoolModel entity) =>
             _baseCollection.UpdateAsync<SchoolModel>(entity);
-        public Task DeleteAsync(SchoolModel entity) =>
-            _baseCollection.DeleteAsync<SchoolModel>(entity);
-        public Task<SchoolModel?> GetByIdAsync(int id) =>
-            _baseCollection.GetByIdAsync<SchoolModel>(id);
-        public Task DeleteByIdAsync(int id) =>
-            _baseCollection.DeleteByIdAsync<SchoolModel>(id);
+        public Task DeleteAsync(int id) =>
+            _baseCollection.DeleteAsync<SchoolModel>(id);
     }
 }

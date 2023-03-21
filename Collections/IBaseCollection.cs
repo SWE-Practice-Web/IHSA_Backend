@@ -5,11 +5,9 @@ namespace IHSA_Backend.Collections
     public interface IBaseCollection
     {
         public Task<IEnumerable<T>> GetAllAsync<T>() where T : IBaseModel;
-        public Task<T?> GetAsync<T>(T entity) where T : IBaseModel;
+        public Task<T?> GetAsync<T>(int id) where T : IBaseModel;
         public Task<T> AddAsync<T>(T entity) where T : IBaseModel;
         public Task<T> UpdateAsync<T>(T entity) where T : IBaseModel;
-        public Task DeleteAsync<T>(T entity) where T : IBaseModel;
-        public Task<T?> GetByIdAsync<T>(int id) where T : IBaseModel;
-        public Task DeleteByIdAsync<T>(int id) where T : IBaseModel;
+        public Task DeleteAsync<T>(int id) where T : IBaseModel;
     }
 }
