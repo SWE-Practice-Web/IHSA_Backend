@@ -5,7 +5,7 @@ using IHSA_Backend.Models;
 
 namespace IHSA_Backend.BLL
 {
-    public class SchoolRequestHandler : RequestHandler<ISchoolCollection, SchoolRequestModel, SchoolModel>, ISchoolRequestHandler
+    public class SchoolRequestHandler : RequestHandler<ISchoolCollection, SchoolRequestModel, SchoolResponseModel, SchoolModel>, ISchoolRequestHandler
     {
         private readonly ISchoolCollection _collection;
         private readonly IMapper _mapper;
@@ -15,16 +15,6 @@ namespace IHSA_Backend.BLL
         {
             _collection = collection;
             _mapper = mapper;
-        }
-
-        public override SchoolRequestModel PostHandle(SchoolModel entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override SchoolModel PreHandle(SchoolRequestModel request)
-        {
-            throw new NotImplementedException();
         }
     }
 }

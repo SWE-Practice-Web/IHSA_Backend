@@ -4,6 +4,7 @@ using System.Text;
 using IHSA_Backend.Services;
 using IHSA_Backend.Collections;
 using IHSA_Backend.Mapping;
+using IHSA_Backend.BLL;
 
 var builder = WebApplication.CreateBuilder(args);
 var appSettings = new AppSettings(builder.Configuration);
@@ -27,6 +28,9 @@ var appSettings = new AppSettings(builder.Configuration);
     services.AddSingleton<IRiderCollection, RiderCollection>();
     services.AddSingleton<ISchoolCollection, SchoolCollection>();
     services.AddSingleton<IEventCollection, EventCollection>();
+
+    // Request Handlers
+    services.AddSingleton<ISchoolRequestHandler, SchoolRequestHandler>();
 
     // JWT
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

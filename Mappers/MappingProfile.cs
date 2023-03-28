@@ -13,6 +13,8 @@ namespace IHSA_Backend.Mapping
                 .ReverseMap();
             CreateMap<SchoolModel, SchoolRequestModel>()
                 .ReverseMap();
+            CreateMap<SchoolModel, SchoolResponseModel>()
+                .ReverseMap();
         }
     }
 }

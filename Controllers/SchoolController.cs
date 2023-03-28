@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IHSA_Backend.BLL;
 using IHSA_Backend.Collections;
 using IHSA_Backend.Constants;
 using IHSA_Backend.Models;
@@ -11,14 +12,11 @@ namespace IHSA_Backend.Controllers
     [Route("[controller]")]
     public class SchoolController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly ISchoolCollection _schoolCollection;
+        private readonly ISchoolRequestHandler _schoolRequestHandler;
         public SchoolController(
-            IMapper mapper,
-            ISchoolCollection schoolCollection)
+            ISchoolRequestHandler schoolRequestHandler)
         {
-            _mapper = mapper;
-            _schoolCollection = schoolCollection;
+            _schoolRequestHandler = schoolRequestHandler;
         }
 
         [HttpPost("[action]")]
@@ -27,22 +25,23 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var school = _mapper.Map<SchoolModel>(schoolRequest);
+            var school = _schoolRequestHandler.Create(schoolRequest);
 
-            _schoolCollection.AddAsync(school);
+            if (school == null || school.Equals(default(SchoolRequestModel)))
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
-            return Ok(_mapper.Map<SchoolRequestModel>(school));
+            return Ok(school);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var schools = await _schoolCollection.GetAllAsync();
+            var schools = await _schoolRequestHandler.GetAll();
 
             if (schools == null || !schools.Any())
-                return NotFound();
+                return NoContent();
 
-            return Ok(_mapper.Map<IEnumerable<SchoolRequestModel>>(schools));
+            return Ok(schools);
         }
 
         [HttpGet("{id}")]
@@ -51,11 +50,12 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var school = await _schoolCollection.GetAsync(id);
-            if (school == null || school.Equals(default(SchoolModel)))
+            var school = await _schoolRequestHandler.Get(id);
+
+            if (school == null || school.Equals(default(SchoolRequestModel)))
                 return NotFound();
 
-            return Ok(_mapper.Map<SchoolRequestModel>(school));
+            return Ok(school);
         }
 
         [HttpPut("{id}")]
@@ -67,15 +67,7 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingSchool = await _schoolCollection.GetAsync(id);
-            
-            if (existingSchool == null || existingSchool.Equals(default(SchoolModel)))
-                return NotFound();
-
-            var school = _mapper.Map<SchoolModel>(schoolRequest);
-            school.Id = id;
-
-            await _schoolCollection.UpdateAsync(school);
+            await _schoolRequestHandler.Update(id, schoolRequest);
 
             return NoContent();
         }
@@ -86,11 +78,7 @@ namespace IHSA_Backend.Controllers
             if (IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var existingSchool = await _schoolCollection.GetAsync(id);
-            if (existingSchool == null || existingSchool.Equals(default(SchoolModel)))
-                return NotFound();
-
-            await _schoolCollection.DeleteAsync(id);
+            await _schoolRequestHandler.Delete(id);
 
             return NoContent();
         }

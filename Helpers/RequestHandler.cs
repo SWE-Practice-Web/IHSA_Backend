@@ -4,9 +4,10 @@ using IHSA_Backend.Models;
 
 namespace IHSA_Backend.Helper
 {
-    public abstract class RequestHandler<C, T, M>
+    public abstract class RequestHandler<C, T, R, M>
         where C : IBaseCollection<M>
         where T : class
+        where R : class
         where M : IBaseModel
     {
         private readonly C _collection;
@@ -19,17 +20,19 @@ namespace IHSA_Backend.Helper
             _collection = collection;
             _mapper = mapper;
         }
-
         public static bool IsInvalidId(int id)
         {
             return id < 0;
         }
-
-        public abstract M PreHandle(T request);
-
-        public abstract T PostHandle(M entity);
-
-        public async Task<T> Create(T request)
+        public M PreHandle(T request)
+        {
+            return _mapper.Map<M>(request);
+        }
+        public R PostHandle(M entity)
+        {
+            return _mapper.Map<R>(entity);
+        }
+        public async Task<R> Create(T request)
         {
             M entity = PreHandle(request);
 
@@ -37,8 +40,7 @@ namespace IHSA_Backend.Helper
 
             return PostHandle(entity);
         }
-
-        public async Task<T?> Get(int id)
+        public async Task<R?> Get(int id)
         {
             M? entity = await _collection.GetAsync(id);
 
@@ -47,8 +49,7 @@ namespace IHSA_Backend.Helper
 
             return PostHandle(entity);
         }
-
-        public async Task<T?> Update(int id, T request)
+        public async Task<R?> Update(int id, T request)
         {
             M? existingEntity = await _collection.GetAsync(id);
 
@@ -62,7 +63,6 @@ namespace IHSA_Backend.Helper
 
             return PostHandle(entity);
         }
-
         public async Task Delete(int id)
         {
             M? existingEntity = await _collection.GetAsync(id);
@@ -70,8 +70,7 @@ namespace IHSA_Backend.Helper
             if (existingEntity != null)
                 await _collection.DeleteAsync(id);
         }
-
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<R>> GetAll()
         {
             var entities = await _collection.GetAllAsync();
             return entities.Select(e => PostHandle(e)).ToList();
