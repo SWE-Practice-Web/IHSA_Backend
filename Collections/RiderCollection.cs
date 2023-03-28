@@ -10,19 +10,19 @@ namespace IHSA_Backend.Collections
     {
         private readonly IAppSettings _appSettings;
         private readonly CollectionReference _collectionRef;
-        private readonly IBaseCollection _baseCollection;
+        private readonly IBaseCollection<RiderModel> _baseCollection;
         public RiderCollection(
             IAppSettings appSettings,
             IFirestore firestore)
         {
             _appSettings = appSettings;
             _collectionRef = firestore.GetCollection(appSettings.RiderCollection);
-            _baseCollection = new BaseCollection(_collectionRef);
+            _baseCollection = new BaseCollection<RiderModel>(_collectionRef);
         }
         public Task<IEnumerable<RiderModel>> GetAllAsync() =>
-            _baseCollection.GetAllAsync<RiderModel>();
+            _baseCollection.GetAllAsync();
         public Task<RiderModel?> GetAsync(int id) =>
-            _baseCollection.GetAsync<RiderModel>(id);
+            _baseCollection.GetAsync(id);
         public async Task<RiderModel> AddAsync(RiderModel entity)
         {
             var docReference = _collectionRef.Document(entity.Id.ToString());
@@ -41,6 +41,6 @@ namespace IHSA_Backend.Collections
             return entity;
         }
         public Task DeleteAsync(int id) =>
-            _baseCollection.DeleteAsync<RiderModel>(id);
+            _baseCollection.DeleteAsync(id);
     }
 }

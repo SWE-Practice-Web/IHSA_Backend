@@ -1,6 +1,6 @@
 ﻿namespace IHSA_Backend.BLL
 {
-    public class BaseRequestHandler
+    public interface ISchoolRequestHandler
     {
     }
 }

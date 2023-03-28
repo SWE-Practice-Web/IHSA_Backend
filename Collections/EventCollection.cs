@@ -9,24 +9,24 @@ namespace IHSA_Backend.Collections
     {
         private readonly IAppSettings _appSettings;
         private readonly CollectionReference _collectionRef;
-        private readonly IBaseCollection _baseCollection;
+        private readonly IBaseCollection<EventModel> _baseCollection;
         public EventCollection(
             IAppSettings appSettings,
             IFirestore firestore)
         {
             _appSettings = appSettings;
             _collectionRef = firestore.GetCollection(appSettings.EventCollection);
-            _baseCollection = new BaseCollection(_collectionRef);
+            _baseCollection = new BaseCollection<EventModel>(_collectionRef);
         }
         public Task<IEnumerable<EventModel>> GetAllAsync() =>
-            _baseCollection.GetAllAsync<EventModel>();
+            _baseCollection.GetAllAsync();
         public Task<EventModel?> GetAsync(int id) =>
-            _baseCollection.GetAsync<EventModel>(id);
+            _baseCollection.GetAsync(id);
         public Task<EventModel> AddAsync(EventModel entity) =>
-            _baseCollection.AddAsync<EventModel>(entity);
+            _baseCollection.AddAsync(entity);
         public Task<EventModel> UpdateAsync(EventModel entity) =>
-            _baseCollection.UpdateAsync<EventModel>(entity);
+            _baseCollection.UpdateAsync(entity);
         public Task DeleteAsync(int id) =>
-            _baseCollection.DeleteAsync<EventModel>(id);
+            _baseCollection.DeleteAsync(id);
     }
 }

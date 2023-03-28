@@ -2,12 +2,12 @@
 
 namespace IHSA_Backend.Collections
 {
-    public interface IUserCollection
+    public interface IUserCollection : IBaseCollection<UserModel>
     {
-        public Task<IEnumerable<UserModel>> GetAllAsync();
-        public Task<UserModel?> GetAsync(int id);
-        public Task<UserModel> AddAsync(UserModel entity);
-        public Task<UserModel> UpdateAsync(UserModel entity);
-        public Task DeleteAsync(int id);
+        public new Task<IEnumerable<UserModel>> GetAllAsync();
+        public new Task<UserModel?> GetAsync(int id);
+        public new Task<UserModel> AddAsync(UserModel entity);
+        public new Task<UserModel> UpdateAsync(UserModel entity);
+        public new Task DeleteAsync(int id);
     }
 }
