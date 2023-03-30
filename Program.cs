@@ -31,6 +31,8 @@ var appSettings = new AppSettings(builder.Configuration);
 
     // Request Handlers
     services.AddSingleton<ISchoolRequestHandler, SchoolRequestHandler>();
+    services.AddSingleton<IEventRequestHandler, EventRequestHandler>();
+    services.AddSingleton<IRiderRequestHandler, RiderRequestHandler>();
 
     // JWT
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -46,10 +48,25 @@ var appSettings = new AppSettings(builder.Configuration);
             };
         });
     services.AddAuthorization();
+
+    // CORS
+    services.AddCors(options =>
+    {
+        options.AddDefaultPolicy(
+            builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            }
+        );
+    });
 }
 
 // Application Configuration
 var app = builder.Build();
+
 
 {
     // Swagger
@@ -57,6 +74,8 @@ var app = builder.Build();
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+
+        app.UseCors();
     }
 
     app.UseHttpsRedirection();

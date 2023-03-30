@@ -25,10 +25,7 @@ namespace IHSA_Backend.Collections
             _baseCollection.GetAsync(id);
         public async Task<RiderModel> AddAsync(RiderModel entity)
         {
-            var docReference = _collectionRef.Document(entity.Id.ToString());
-            await docReference.CreateAsync(entity);
-
-            return entity;
+            return await _baseCollection.AddAsync(entity);
         }
         public async Task<RiderModel> UpdateAsync(RiderModel entity)
         {

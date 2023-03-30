@@ -20,12 +20,12 @@ namespace IHSA_Backend.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Create(EventRequestModel eventRequest)
+        public async Task<IActionResult> Create(EventRequestModel eventRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var _event = _eventRequestHandler.Create(eventRequest);
+            var _event = await _eventRequestHandler.Create(eventRequest);
 
             if (_event == null || _event.Equals(default(EventResponseModel)))
                 return StatusCode(StatusCodes.Status500InternalServerError);

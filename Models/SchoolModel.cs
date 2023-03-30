@@ -24,7 +24,7 @@ namespace IHSA_Backend.Models
         [FirestoreProperty]
         public int NumRiders { get; set; }
         [FirestoreProperty]
-        public bool AnchorSchool { get; set; }
+        public bool IsAnchorSchool { get; set; }
     }
     public class SchoolRequestModel
     {
@@ -35,7 +35,7 @@ namespace IHSA_Backend.Models
         public int Region { get; set; }
         public int Zone { get; set; }
         public int NumRiders { get; set; }
-        public bool AnchorSchool { get; set; }
+        public bool IsAnchorSchool { get; set; }
     }
     public class SchoolResponseModel : SchoolRequestModel
     {
