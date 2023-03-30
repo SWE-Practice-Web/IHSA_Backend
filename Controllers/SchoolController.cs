@@ -28,7 +28,7 @@ namespace IHSA_Backend.Controllers
 
             var school = _schoolRequestHandler.Create(schoolRequest);
 
-            if (school == null || school.Equals(default(SchoolRequestModel)))
+            if (school == null || school.Equals(default(SchoolResponseModel)))
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
             return Ok(school);
@@ -56,7 +56,7 @@ namespace IHSA_Backend.Controllers
 
             var school = await _schoolRequestHandler.Get(id);
 
-            if (school == null || school.Equals(default(SchoolRequestModel)))
+            if (school == null || school.Equals(default(SchoolResponseModel)))
                 return NotFound();
 
             return Ok(school);

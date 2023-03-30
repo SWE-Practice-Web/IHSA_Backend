@@ -9,7 +9,11 @@ namespace IHSA_Backend.Mapping
         {
             CreateMap<RiderModel, RiderRequestModel>()
                 .ReverseMap();
+            CreateMap<RiderModel, RiderResponseModel>()
+                .ReverseMap();
             CreateMap<EventModel, EventRequestModel>()
+                .ReverseMap();
+            CreateMap<EventModel, EventResponseModel>()
                 .ReverseMap();
             CreateMap<SchoolModel, SchoolRequestModel>()
                 .ReverseMap();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IHSA_Backend.BLL;
 using IHSA_Backend.Collections;
 using IHSA_Backend.Constants;
 using IHSA_Backend.Models;
@@ -11,14 +12,11 @@ namespace IHSA_Backend.Controllers
     [Route("[controller]")]
     public class EventController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IEventCollection _eventCollection;
+        private readonly IEventRequestHandler _eventRequestHandler;
         public EventController(
-            IMapper mapper,
-            IEventCollection eventCollection)
+            IEventRequestHandler eventRequestHandler)
         {
-            _mapper = mapper;
-            _eventCollection = eventCollection;
+            _eventRequestHandler = eventRequestHandler;
         }
 
         [HttpPost("[action]")]
@@ -27,56 +25,52 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var _event = _mapper.Map<EventModel>(eventRequest);
+            var _event = _eventRequestHandler.Create(eventRequest);
 
-            _eventCollection.AddAsync(_event);
+            if (_event == null || _event.Equals(default(EventResponseModel)))
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
-            return Ok(_mapper.Map<EventRequestModel>(_event));
+            return Ok(_event);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var _event = await _eventCollection.GetAllAsync();
+            var _events = await _eventRequestHandler.GetAll();
 
-            if (_event == null || !_event.Any())
+            if (_events == null || !_events.Any())
                 return NotFound();
 
-            return Ok(_mapper.Map<IEnumerable<EventRequestModel>>(_event));
+            return Ok(_events);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            if (IsInvalidId(id))
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            if (_eventRequestHandler.IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var _event = await _eventCollection.GetAsync(id);
-            if (_event == null || _event.Equals(default(EventModel)))
+            var _event = await _eventRequestHandler.Get(id);
+            
+            if (_event == null || _event.Equals(default(EventResponseModel)))
                 return NotFound();
 
-            return Ok(_mapper.Map<EventRequestModel>(_event));
+            return Ok(_event);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, EventRequestModel eventRequest)
         {
-            if (IsInvalidId(id))
-                return BadRequest(Constant.InvalidId);
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            var existingEvent = await _eventCollection.GetAsync(id);
             
-            if (existingEvent == null || existingEvent.Equals(default(EventModel)))
-                return NotFound();
+            if (_eventRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
 
-            var _event = _mapper.Map<EventModel>(eventRequest);
-
-            _event.Id = id;
-
-            await _eventCollection.UpdateAsync(_event);
+            await _eventRequestHandler.Update(id, eventRequest);
 
             return NoContent();
         }
@@ -84,20 +78,12 @@ namespace IHSA_Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            if (IsInvalidId(id))
+            if (_eventRequestHandler.IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var existingEvent = await _eventCollection.GetAsync(id);
-            if (existingEvent == null || existingEvent.Equals(default(EventModel)))
-                return NotFound();
-
-            await _eventCollection.DeleteAsync(id);
+            await _eventRequestHandler.Delete(id);
 
             return NoContent();
-        }
-        private bool IsInvalidId(int id)
-        {
-            return id < 0;
         }
     }
 }
