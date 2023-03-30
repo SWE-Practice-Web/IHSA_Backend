@@ -25,7 +25,7 @@ namespace IHSA_Backend.Models
         public IEnumerable<int>? Riders { get; set; }
         public int Zone { get; set; }
     }
-    public class EventResponseModel : EventResponseModel
+    public class EventResponseModel : EventRequestModel
     {
         public int Id { get; set; }
     }
