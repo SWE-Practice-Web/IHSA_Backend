@@ -2,12 +2,12 @@
 
 namespace IHSA_Backend.Collections
 {
-    public interface IEventCollection
+    public interface IEventCollection : IBaseCollection<EventModel>
     {
-        public Task<IEnumerable<EventModel>> GetAllAsync();
-        public Task<EventModel?> GetAsync(int id);
-        public Task<EventModel> AddAsync(EventModel entity);
-        public Task<EventModel> UpdateAsync(EventModel entity);
-        public Task DeleteAsync(int id);
+        public new Task<IEnumerable<EventModel>> GetAllAsync();
+        public new Task<EventModel?> GetAsync(int id);
+        public new Task<EventModel> AddAsync(EventModel entity);
+        public new Task<EventModel> UpdateAsync(EventModel entity);
+        public new Task DeleteAsync(int id);
     }
 }

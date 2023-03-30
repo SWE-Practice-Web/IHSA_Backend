@@ -9,24 +9,24 @@ namespace IHSA_Backend.Collections
     {
         private readonly IAppSettings _appSettings;
         private readonly CollectionReference _collectionRef;
-        private readonly IBaseCollection _baseCollection;
+        private readonly IBaseCollection<SchoolModel> _baseCollection;
         public SchoolCollection(
             IAppSettings appSettings,
             IFirestore firestore)
         {
             _appSettings = appSettings;
             _collectionRef = firestore.GetCollection(appSettings.SchoolCollection);
-            _baseCollection = new BaseCollection(_collectionRef);
+            _baseCollection = new BaseCollection<SchoolModel>(_collectionRef);
         }
         public Task<IEnumerable<SchoolModel>> GetAllAsync() =>
-            _baseCollection.GetAllAsync<SchoolModel>();
+            _baseCollection.GetAllAsync();
         public Task<SchoolModel?> GetAsync(int id) =>
-            _baseCollection.GetAsync<SchoolModel>(id);
+            _baseCollection.GetAsync(id);
         public Task<SchoolModel> AddAsync(SchoolModel entity) =>
-            _baseCollection.AddAsync<SchoolModel>(entity);
+            _baseCollection.AddAsync(entity);
         public Task<SchoolModel> UpdateAsync(SchoolModel entity) =>
-            _baseCollection.UpdateAsync<SchoolModel>(entity);
+            _baseCollection.UpdateAsync(entity);
         public Task DeleteAsync(int id) =>
-            _baseCollection.DeleteAsync<SchoolModel>(id);
+            _baseCollection.DeleteAsync(id);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Google.Cloud.Firestore;
 using IHSA_Backend.Enums;
+using System.Runtime.InteropServices;
 
 namespace IHSA_Backend.Models
 {
@@ -35,5 +36,9 @@ namespace IHSA_Backend.Models
         public int Zone { get; set; }
         public int NumRiders { get; set; }
         public bool AnchorSchool { get; set; }
+    }
+    public class SchoolResponseModel : SchoolRequestModel
+    {
+        public int Id { get; set; }
     }
 }

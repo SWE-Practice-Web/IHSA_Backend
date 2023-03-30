@@ -5,7 +5,8 @@ using IHSA_Backend.Constants;
 
 namespace IHSA_Backend.Collections
 {
-    public class BaseCollection : IBaseCollection
+    public class BaseCollection<T> : IBaseCollection<T>
+        where T : IBaseModel
     {
         private readonly CollectionReference _collectionRef;
         private int nextAvailableId = 0;
@@ -21,7 +22,7 @@ namespace IHSA_Backend.Collections
             if (maxDoc != null)
                 nextAvailableId = maxDoc.GetValue<int>(Constant.DatabaseId) + 1;
         }
-        public async Task<IEnumerable<T>> GetAllAsync<T>() where T : IBaseModel
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
             var snapshot = await _collectionRef.GetSnapshotAsync();
             var list = new List<T>();
@@ -37,13 +38,13 @@ namespace IHSA_Backend.Collections
 
             return list;
         }
-        public async Task<T?> GetAsync<T>(int id) where T : IBaseModel
+        public async Task<T?> GetAsync(int id)
         {
             var snapshot = await _collectionRef.Document(id.ToString()).GetSnapshotAsync();
 
             return snapshot.Exists ? snapshot.ConvertTo<T>() : default;
         }
-        public async Task<T> AddAsync<T>(T entity) where T : IBaseModel
+        public async Task<T> AddAsync(T entity)
         {
             entity.Id = nextAvailableId++;
 
@@ -52,13 +53,13 @@ namespace IHSA_Backend.Collections
 
             return entity;
         }
-        public async Task<T> UpdateAsync<T>(T entity) where T : IBaseModel
+        public async Task<T> UpdateAsync(T entity)
         {
             await _collectionRef.Document(entity.Id.ToString()).SetAsync(entity, SetOptions.MergeAll);
 
             return entity;
         }
-        public async Task DeleteAsync<T>(int id) where T : IBaseModel
+        public async Task DeleteAsync(int id)
         {
             await _collectionRef.Document(id.ToString()).DeleteAsync();
         }

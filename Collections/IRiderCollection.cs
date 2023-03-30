@@ -2,12 +2,12 @@
 
 namespace IHSA_Backend.Collections
 {
-    public interface IRiderCollection
+    public interface IRiderCollection : IBaseCollection<RiderModel>
     {
-        public Task<IEnumerable<RiderModel>> GetAllAsync();
-        public Task<RiderModel?> GetAsync(int id);
-        public Task<RiderModel> AddAsync(RiderModel entity);
-        public Task<RiderModel> UpdateAsync(RiderModel entity);
-        public Task DeleteAsync(int id);
+        public new Task<IEnumerable<RiderModel>> GetAllAsync();
+        public new Task<RiderModel?> GetAsync(int id);
+        public new Task<RiderModel> AddAsync(RiderModel entity);
+        public new Task<RiderModel> UpdateAsync(RiderModel entity);
+        public new Task DeleteAsync(int id);
     }
 }
