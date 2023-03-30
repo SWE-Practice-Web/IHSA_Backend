@@ -26,4 +26,8 @@ namespace IHSA_Backend.Models
         public string? LastName { get; set; }
         public string? Email { get; set; }
     }
+    public class UserResponseModel : UserRequestModel
+    {
+        public int Id { get; set; }
+    }
 }

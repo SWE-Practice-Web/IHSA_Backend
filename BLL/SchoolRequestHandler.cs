@@ -5,7 +5,9 @@ using IHSA_Backend.Models;
 
 namespace IHSA_Backend.BLL
 {
-    public class SchoolRequestHandler : RequestHandler<ISchoolCollection, SchoolRequestModel, SchoolResponseModel, SchoolModel>, ISchoolRequestHandler
+    public class SchoolRequestHandler : 
+        RequestHandler<ISchoolCollection, SchoolRequestModel, SchoolResponseModel, SchoolModel>,
+        ISchoolRequestHandler
     {
         private readonly ISchoolCollection _collection;
         private readonly IMapper _mapper;

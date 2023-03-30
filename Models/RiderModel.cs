@@ -22,11 +22,15 @@ namespace IHSA_Backend.Models
     }
     public class RiderRequestModel : UserRequestModel
     {
-        public int? Id { get; set; }
+        public int? RiderId { get; set; }
         public bool isHeightWeightRider { get; set; }
         public double? Height { get; set; }
         public double? Weight { get; set; }
         public IEnumerable<int>? ManagedBy { get; set; }
         public string? PlaysFor { get; set; }
+    }
+    public class RiderResponseModel : RiderRequestModel
+    {
+        public int Id { get; set; }
     }
 }

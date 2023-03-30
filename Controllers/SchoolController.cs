@@ -2,6 +2,7 @@
 using IHSA_Backend.BLL;
 using IHSA_Backend.Collections;
 using IHSA_Backend.Constants;
+using IHSA_Backend.Helper;
 using IHSA_Backend.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,10 @@ namespace IHSA_Backend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            if (IsInvalidId(id))
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_schoolRequestHandler.IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
             var school = await _schoolRequestHandler.Get(id);
@@ -61,11 +65,11 @@ namespace IHSA_Backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, SchoolRequestModel schoolRequest)
         {
-            if (IsInvalidId(id))
-                return BadRequest(Constant.InvalidId);
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (_schoolRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
 
             await _schoolRequestHandler.Update(id, schoolRequest);
 
@@ -75,16 +79,12 @@ namespace IHSA_Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            if (IsInvalidId(id))
+            if (_schoolRequestHandler.IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
             await _schoolRequestHandler.Delete(id);
 
             return NoContent();
-        }
-        private bool IsInvalidId(int id)
-        {
-            return id < 0;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace IHSA_Backend.Helper
             _collection = collection;
             _mapper = mapper;
         }
-        public static bool IsInvalidId(int id)
+        public bool IsInvalidId(int id)
         {
             return id < 0;
         }

@@ -11,5 +11,6 @@ namespace IHSA_Backend.BLL
         public Task<R?> Update(int id, T request);
         public Task Delete(int id);
         public Task<IEnumerable<R>> GetAll();
+        public bool IsInvalidId(int id);
     }
 }
