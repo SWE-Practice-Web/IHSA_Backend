@@ -10,7 +10,9 @@ namespace IHSA_Backend.Models
         [FirestoreProperty]
         public int RiderId { get; set; }
         [FirestoreProperty]
-        public bool isHeightWeightRider { get; set; }
+        public bool IsHeightRider { get; set; }
+        [FirestoreProperty]
+        public bool IsWeightRider { get; set; }
         [FirestoreProperty]
         public double? Height { get; set; }
         [FirestoreProperty]
@@ -23,7 +25,8 @@ namespace IHSA_Backend.Models
     public class RiderRequestModel : UserRequestModel
     {
         public int? RiderId { get; set; }
-        public bool isHeightWeightRider { get; set; }
+        public bool IsHeightRider { get; set; }
+        public bool IsWeightRider { get; set; }
         public double? Height { get; set; }
         public double? Weight { get; set; }
         public IEnumerable<int>? ManagedBy { get; set; }

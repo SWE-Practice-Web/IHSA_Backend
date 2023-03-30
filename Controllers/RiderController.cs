@@ -20,12 +20,12 @@ namespace IHSA_Backend.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Create(RiderRequestModel riderRequest)
+        public async Task<IActionResult> Create(RiderRequestModel riderRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var rider = _riderRequestHandler.Create(riderRequest);
+            var rider = await _riderRequestHandler.Create(riderRequest);
 
             if (rider == null || rider.Equals(default(RiderResponseModel)))
                 return StatusCode(StatusCodes.Status500InternalServerError);

@@ -21,12 +21,12 @@ namespace IHSA_Backend.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult Create(SchoolRequestModel schoolRequest)
+        public async Task<IActionResult> Create(SchoolRequestModel schoolRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var school = _schoolRequestHandler.Create(schoolRequest);
+            var school = await _schoolRequestHandler.Create(schoolRequest);
 
             if (school == null || school.Equals(default(SchoolResponseModel)))
                 return StatusCode(StatusCodes.Status500InternalServerError);
