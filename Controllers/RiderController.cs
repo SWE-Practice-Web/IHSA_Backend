@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IHSA_Backend.BLL;
 using IHSA_Backend.Collections;
 using IHSA_Backend.Constants;
 using IHSA_Backend.Models;
@@ -11,14 +12,11 @@ namespace IHSA_Backend.Controllers
     [Route("[controller]")]
     public class RiderController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IRiderCollection _riderCollection;
+        private readonly IRiderRequestHandler _riderRequestHandler;
         public RiderController(
-            IMapper mapper,
-            IRiderCollection riderCollection)
+            IRiderRequestHandler riderRequestHandler)
         {
-            _mapper = mapper;
-            _riderCollection = riderCollection;
+            _riderRequestHandler = riderRequestHandler;
         }
 
         [HttpPost("[action]")]
@@ -27,56 +25,52 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var rider = _mapper.Map<RiderModel>(riderRequest);
+            var rider = _riderRequestHandler.Create(riderRequest);
 
-            _riderCollection.AddAsync(rider);
+            if (rider == null || rider.Equals(default(RiderResponseModel)))
+                return StatusCode(StatusCodes.Status500InternalServerError);
 
-            return Ok(_mapper.Map<RiderRequestModel>(rider));
+            return Ok(rider);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
-            var riders = await _riderCollection.GetAllAsync();
+            var riders = await _riderRequestHandler.GetAll();
 
             if (riders == null || !riders.Any())
                 return NotFound();
 
-            return Ok(_mapper.Map<IEnumerable<RiderRequestModel>>(riders));
+            return Ok(riders);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            if (IsInvalidId(id))
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            if (_riderRequestHandler.IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var rider = await _riderCollection.GetAsync(id);
-            if (rider == null || rider.Equals(default(RiderModel)))
+            var rider = await _riderRequestHandler.Get(id);
+            
+            if (rider == null || rider.Equals(default(RiderResponseModel)))
                 return NotFound();
 
-            return Ok(_mapper.Map<RiderRequestModel>(rider));
+            return Ok(rider);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, RiderRequestModel riderRequest)
         {
-            if (IsInvalidId(id))
-                return BadRequest(Constant.InvalidId);
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var existingRider = await _riderCollection.GetAsync(id);
+            if (_riderRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
 
-            if (existingRider == null || existingRider.Equals(default(RiderModel)))
-                return NotFound();
-
-            var rider = _mapper.Map<RiderModel>(riderRequest);
-
-            rider.Id = id;
-
-            await _riderCollection.UpdateAsync(rider);
+            await _riderRequestHandler.Update(id, riderRequest);
 
             return NoContent();
         }
@@ -84,20 +78,12 @@ namespace IHSA_Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            if (IsInvalidId(id))
+            if (_riderRequestHandler.IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var existingRider = await _riderCollection.GetAsync(id);
-            if (existingRider == null || existingRider.Equals(default(RiderModel)))
-                return NotFound();
-
-            await _riderCollection.DeleteAsync(id);
+            await _riderRequestHandler.Delete(id);
 
             return NoContent();
-        }
-        private bool IsInvalidId(int id)
-        {
-            return id < 0;
         }
     }
 }
