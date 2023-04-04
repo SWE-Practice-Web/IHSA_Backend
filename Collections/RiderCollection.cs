@@ -23,20 +23,10 @@ namespace IHSA_Backend.Collections
             _baseCollection.GetAllAsync();
         public Task<RiderModel?> GetAsync(int id) =>
             _baseCollection.GetAsync(id);
-        public async Task<RiderModel> AddAsync(RiderModel entity)
-        {
-            return await _baseCollection.AddAsync(entity);
-        }
-        public async Task<RiderModel> UpdateAsync(RiderModel entity)
-        {
-            var properties = typeof(RiderModel).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            var fields = (string[])properties.Where(p => p.Name != nameof(RiderModel.Password)).Select(p => p.Name);
-
-            var docReference = _collectionRef.Document(entity.Id.ToString());
-            await docReference.SetAsync(entity, SetOptions.MergeFields(fields));
-
-            return entity;
-        }
+        public async Task<RiderModel> AddAsync(RiderModel entity) =>
+            _baseCollection.AddAsync(entity);
+        public async Task<RiderModel> UpdateAsync(RiderModel entity) =>
+            _baseCollection.UpdateAsync(entity);
         public Task DeleteAsync(int id) =>
             _baseCollection.DeleteAsync(id);
     }
