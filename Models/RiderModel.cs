@@ -7,20 +7,13 @@ namespace IHSA_Backend.Models
     [FirestoreData]
     public class RiderModel : UserModel
     {
-        [FirestoreProperty]
-        public int RiderId { get; set; }
-        [FirestoreProperty]
-        public bool IsHeightRider { get; set; }
-        [FirestoreProperty]
-        public bool IsWeightRider { get; set; }
-        [FirestoreProperty]
-        public double? Height { get; set; }
-        [FirestoreProperty]
-        public double? Weight { get; set; }
-        [FirestoreProperty]
-        public IEnumerable<int>? ManagedBy { get; set; }
-        [FirestoreProperty]
-        public string? PlaysFor { get; set; }
+        [FirestoreProperty] public int RiderId { get; set; }
+        [FirestoreProperty] public bool IsHeightRider { get; set; }
+        [FirestoreProperty] public bool IsWeightRider { get; set; }
+        [FirestoreProperty] public double? Height { get; set; }
+        [FirestoreProperty] public double? Weight { get; set; }
+        [FirestoreProperty] public IEnumerable<int>? ManagedBy { get; set; }
+        [FirestoreProperty] public string? PlaysFor { get; set; }
     }
     public class RiderRequestModel : UserRequestModel
     {

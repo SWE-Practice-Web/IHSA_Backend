@@ -7,16 +7,11 @@ namespace IHSA_Backend.Models
     [FirestoreData]
     public class EventModel : IBaseModel
     {
-        [FirestoreProperty]
-        public int Id { get; set; }
-        [FirestoreProperty]
-        public string? Location { get; set; }
-        [FirestoreProperty]
-        public DateTime EventTime { get; set; }
-        [FirestoreProperty]
-        public IEnumerable<int>? Riders { get; set; }
-        [FirestoreProperty]
-        public int Zone { get; set; }
+        [FirestoreProperty] public int Id { get; set; }
+        [FirestoreProperty] public string? Location { get; set; }
+        [FirestoreProperty] public DateTime EventTime { get; set; }
+        [FirestoreProperty] public IEnumerable<int>? Riders { get; set; }
+        [FirestoreProperty] public int Zone { get; set; }
     }
     public class EventRequestModel
     {
