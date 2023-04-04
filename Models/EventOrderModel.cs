@@ -7,20 +7,20 @@ namespace IHSA_Backend.Models
     [FirestoreData]
     public class EventElementOrderModel
     {
-        [FirestoreData] public string? ShowClass { get; set; }
-        [FirestoreData] public string? Class { get; set; }
-        [FirestoreData] public string? Section { get; set; }
-        [FirestoreData] public IEnumerable<EventPairModel>? Pairs { get; set; }
+        [FirestoreProperty] public string? ShowClass { get; set; }
+        [FirestoreProperty] public string? Class { get; set; }
+        [FirestoreProperty] public string? Section { get; set; }
+        [FirestoreProperty] public IEnumerable<EventPairModel>? Pairs { get; set; }
     }
 
     [FirestoreData]
     public class EventPairModel
     {
-        [FirestoreData] public int RiderId { get; set; } = -1;
-        [FirestoreData] public int Placing { get; set; }
-        [FirestoreData] public int Order { get; set; }
-        [FirestoreData] public string? HorseName { get; set; }
-        [FirestoreData] public string? HorseProvider { get; set; };
+        [FirestoreProperty] public int RiderId { get; set; } = -1;
+        [FirestoreProperty] public int Placing { get; set; }
+        [FirestoreProperty] public int Order { get; set; }
+        [FirestoreProperty] public string? HorseName { get; set; }
+        [FirestoreProperty] public string? HorseProvider { get; set; }
     }
 
     public class EventOrderRequestModel

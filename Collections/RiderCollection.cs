@@ -23,9 +23,9 @@ namespace IHSA_Backend.Collections
             _baseCollection.GetAllAsync();
         public Task<RiderModel?> GetAsync(int id) =>
             _baseCollection.GetAsync(id);
-        public async Task<RiderModel> AddAsync(RiderModel entity) =>
+        public Task<RiderModel> AddAsync(RiderModel entity) =>
             _baseCollection.AddAsync(entity);
-        public async Task<RiderModel> UpdateAsync(RiderModel entity) =>
+        public Task<RiderModel> UpdateAsync(RiderModel entity) =>
             _baseCollection.UpdateAsync(entity);
         public Task DeleteAsync(int id) =>
             _baseCollection.DeleteAsync(id);
