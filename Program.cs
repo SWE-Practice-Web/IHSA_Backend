@@ -67,7 +67,6 @@ var appSettings = new AppSettings(builder.Configuration);
 // Application Configuration
 var app = builder.Build();
 
-
 {
     // Swagger
     if (app.Environment.IsDevelopment())

@@ -39,7 +39,7 @@ namespace IHSA_Backend.Controllers
             var _events = await _eventRequestHandler.GetAll();
 
             if (_events == null || !_events.Any())
-                return NotFound();
+                return Ok();
 
             return Ok(_events);
         }
@@ -56,7 +56,7 @@ namespace IHSA_Backend.Controllers
             var _event = await _eventRequestHandler.Get(id);
             
             if (_event == null || _event.Equals(default(EventResponseModel)))
-                return NotFound();
+                return Ok();
 
             return Ok(_event);
         }

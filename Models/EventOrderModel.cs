@@ -17,7 +17,7 @@ namespace IHSA_Backend.Models
     public class EventPairModel
     {
         [FirestoreProperty] public int RiderId { get; set; } = -1;
-        [FirestoreProperty] public int Placing { get; set; }
+        [FirestoreProperty] public int RiderPlacing { get; set; }
         [FirestoreProperty] public int Order { get; set; }
         [FirestoreProperty] public string? HorseName { get; set; }
         [FirestoreProperty] public string? HorseProvider { get; set; }
@@ -34,9 +34,9 @@ namespace IHSA_Backend.Models
     public class EventPairRequestModel
     {
         public int RiderId { get; set; } = -1;
-        public int Placing { get; set; }
+        public int RiderPlacing { get; set; }
         public int Order { get; set; }
         public string? HorseName { get; set; }
-        public string? HorseProvider { get; }
+        public string? HorseProvider { get; set; }
     }
 }

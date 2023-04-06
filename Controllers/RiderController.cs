@@ -39,7 +39,7 @@ namespace IHSA_Backend.Controllers
             var riders = await _riderRequestHandler.GetAll();
 
             if (riders == null || !riders.Any())
-                return NotFound();
+                return Ok();
 
             return Ok(riders);
         }

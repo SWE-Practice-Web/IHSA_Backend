@@ -40,7 +40,7 @@ namespace IHSA_Backend.Controllers
             var schools = await _schoolRequestHandler.GetAll();
 
             if (schools == null || !schools.Any())
-                return NoContent();
+                return Ok();
 
             return Ok(schools);
         }
