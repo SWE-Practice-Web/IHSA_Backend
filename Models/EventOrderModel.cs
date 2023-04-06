@@ -23,11 +23,20 @@ namespace IHSA_Backend.Models
         [FirestoreData] public string? HorseProvider { get; set; };
     }
 
-    public class EventOrderRequestModel
+    public class EventElementOrderRequestModel
     {
-        public string? Location { get; set; }
-        public DateTime EventTime { get; set; }
-        public IEnumerable<int>? Riders { get; set; }
-        public int Zone { get; set; }
+        public string? ShowClass { get; set; }
+        public string? Class { get; set; }
+        public string? Section { get; set; }
+        public IEnumerable<EventPairRequestModel>? Pairs { get; set; }
+    }
+
+    public class EventPairRequestModel
+    {
+        public int RiderId { get; set; } = -1;
+        public int Placing { get; set; }
+        public int Order { get; set; }
+        public string? HorseName { get;
+        public string? HorseProvider { get; }
     }
 }
