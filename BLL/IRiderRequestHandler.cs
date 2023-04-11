@@ -2,7 +2,7 @@
 
 namespace IHSA_Backend.BLL
 {
-    public interface IRiderRequestHandler : IBaseRequestHandler<RiderRequestModel, RiderResponseModel>
+    public interface IEventAdminRequestHandler : IBaseRequestHandler<EventAdminRequestModel, EventAdminResponseModel>
     {
     }
 }

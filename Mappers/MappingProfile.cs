@@ -19,6 +19,10 @@ namespace IHSA_Backend.Mapping
                 .ReverseMap();
             CreateMap<SchoolModel, SchoolResponseModel>()
                 .ReverseMap();
+            CreateMap<EventAdminModel, EventAdminResponseModel>()
+               .ReverseMap();
+            CreateMap<EventAdminModel, EventAdminResponseModel>()
+               .ReverseMap();
         }
     }
 }

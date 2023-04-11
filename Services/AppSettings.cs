@@ -43,5 +43,10 @@
         {
             get => _configuration["EventCollection"];
         }
+        public string EventAdminCollection
+        {
+            get => _configuration["EventAdminCollection"];
+        }
+
     }
 }
