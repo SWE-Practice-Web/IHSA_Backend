@@ -85,5 +85,19 @@ namespace IHSA_Backend.Controllers
 
             return NoContent();
         }
+        
+        [HttpPost("[action]")]
+        public async Task<IActionResult> BatchCreate(IEnumerable<RiderRequestModel> riderRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            foreach (var rider in riderRequest)
+            {
+                await _riderRequestHandler.Create(rider);
+            }
+
+            return Ok();
+        }
     }
 }
