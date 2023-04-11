@@ -5,7 +5,7 @@ using IHSA_Backend.Models;
 namespace IHSA_Backend.Models
 {
     [FirestoreData]
-    public class RiderModel : UserModel
+    public class RiderModel : BaseUserModel
     {
         [FirestoreProperty] public int RiderId { get; set; }
         [FirestoreProperty] public bool IsHeightRider { get; set; } = false;
@@ -15,7 +15,7 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public IEnumerable<int>? ManagedBy { get; set; }
         [FirestoreProperty] public string? PlaysFor { get; set; }
     }
-    public class RiderRequestModel : UserRequestModel
+    public class RiderRequestModel : BaseUserRequestModel
     {
         public int? RiderId { get; set; }
         public bool IsHeightRider { get; set; }

@@ -93,10 +93,8 @@ namespace IHSA_Backend.Controllers
                 return BadRequest(ModelState);
 
             foreach (var rider in riderRequest)
-            {
                 await _riderRequestHandler.Create(rider);
-            }
-
+            
             return Ok();
         }
     }
