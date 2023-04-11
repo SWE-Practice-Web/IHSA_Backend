@@ -8,8 +8,8 @@ namespace IHSA_Backend.Models
     public class RiderModel : UserModel
     {
         [FirestoreProperty] public int RiderId { get; set; }
-        [FirestoreProperty] public bool IsHeightRider { get; set; }
-        [FirestoreProperty] public bool IsWeightRider { get; set; }
+        [FirestoreProperty] public bool IsHeightRider { get; set; } = false;
+        [FirestoreProperty] public bool IsWeightRider { get; set; } = false;
         [FirestoreProperty] public double? Height { get; set; }
         [FirestoreProperty] public double? Weight { get; set; }
         [FirestoreProperty] public IEnumerable<int>? ManagedBy { get; set; }

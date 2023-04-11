@@ -47,9 +47,9 @@ namespace IHSA_Backend.BLL
             {
                 var riderExists = await _riderCollection.ExistsAsync(pair.RiderId);
 
-                if (!riderExists)
-                    throw new APIExceptions.RiderIdNotFoundException(
-                        StatusCodes.Status404NotFound, Constant.RiderIdNotFound);
+                // if (!riderExists)
+                //    throw new APIExceptions.RiderIdNotFoundException(
+                //        StatusCodes.Status404NotFound, Constant.RiderIdNotFound);
             }
 
             var existingEventOrder = entity.EventOrder.FirstOrDefault(
@@ -91,9 +91,9 @@ namespace IHSA_Backend.BLL
                 {
                     var riderExists = await _riderCollection.ExistsAsync(pair.RiderId);
 
-                    if (!riderExists)
-                        throw new APIExceptions.RiderIdNotFoundException(
-                            StatusCodes.Status404NotFound, Constant.RiderIdNotFound);
+                    // if (!riderExists)
+                    //    throw new APIExceptions.RiderIdNotFoundException(
+                    //        StatusCodes.Status404NotFound, Constant.RiderIdNotFound)
                 }
 
                 if (existingEventOrder != null)

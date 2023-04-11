@@ -7,16 +7,11 @@ namespace IHSA_Backend.Models
     public class UserModel : IBaseModel
     {
         [FirestoreProperty] public int Id { get; set; }
-        [FirestoreProperty]
-        public string? Username { get; set; }
-        [FirestoreProperty]
-        public string? Password { get; set; }
-        [FirestoreProperty]
-        public string? FirstName { get; set; }
-        [FirestoreProperty]
-        public string? LastName { get; set; }
-        [FirestoreProperty]
-        public string? Email { get; set; }
+        [FirestoreProperty] public string? Username { get; set; }
+        [FirestoreProperty] public string? Password { get; set; }
+        [FirestoreProperty] public string? FirstName { get; set; }
+        [FirestoreProperty] public string? LastName { get; set; }
+        [FirestoreProperty] public string? Email { get; set; }
     }
     public class UserRequestModel
     {
