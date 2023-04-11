@@ -63,5 +63,11 @@ namespace IHSA_Backend.Collections
         {
             await _collectionRef.Document(id.ToString()).DeleteAsync();
         }
+        public async Task<bool> ExistsAsync(int id)
+        {
+            var snapshot = await _collectionRef.Document(id.ToString()).GetSnapshotAsync();
+
+            return snapshot.Exists;
+        }
     }
 }

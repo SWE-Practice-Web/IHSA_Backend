@@ -5,6 +5,7 @@ using IHSA_Backend.Services;
 using IHSA_Backend.Collections;
 using IHSA_Backend.Mapping;
 using IHSA_Backend.BLL;
+using IHSA_Backend.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 var appSettings = new AppSettings(builder.Configuration);
@@ -61,6 +62,12 @@ var appSettings = new AppSettings(builder.Configuration);
                 .AllowAnyHeader();
             }
         );
+    });
+
+    // Filters
+    services.AddControllers(options =>
+    {
+        options.Filters.Add<HttpResponseExceptionFilter>();
     });
 }
 

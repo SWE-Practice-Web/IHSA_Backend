@@ -10,7 +10,7 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public string? ShowClass { get; set; }
         [FirestoreProperty] public string? Class { get; set; }
         [FirestoreProperty] public string? Section { get; set; }
-        [FirestoreProperty] public IEnumerable<EventPairModel>? Pairs { get; set; }
+        [FirestoreProperty] public IList<EventPairModel>? Pairs { get; set; }
     }
 
     [FirestoreData]
@@ -28,7 +28,7 @@ namespace IHSA_Backend.Models
         public string? ShowClass { get; set; }
         public string? Class { get; set; }
         public string? Section { get; set; }
-        public IEnumerable<EventPairRequestModel>? Pairs { get; set; }
+        public IList<EventPairRequestModel>? Pairs { get; set; }
     }
 
     public class EventPairRequestModel
@@ -39,4 +39,5 @@ namespace IHSA_Backend.Models
         public string? HorseName { get; set; }
         public string? HorseProvider { get; set; }
     }
+    public class EventElementOrderResponseModel : EventElementOrderRequestModel { }
 }

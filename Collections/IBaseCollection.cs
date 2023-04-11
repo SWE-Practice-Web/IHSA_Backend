@@ -9,5 +9,6 @@ namespace IHSA_Backend.Collections
         public Task<T> AddAsync(T entity);
         public Task<T> UpdateAsync(T entity);
         public Task DeleteAsync(int id);
+        public Task<bool> ExistsAsync(int id);
     }
 }

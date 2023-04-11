@@ -9,5 +9,6 @@ namespace IHSA_Backend.Collections
         public new Task<SchoolModel> AddAsync(SchoolModel entity);
         public new Task<SchoolModel> UpdateAsync(SchoolModel entity);
         public new Task DeleteAsync(int id);
+        public new Task<bool> ExistsAsync(int id);
     }
 }

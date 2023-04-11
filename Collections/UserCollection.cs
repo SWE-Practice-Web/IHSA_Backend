@@ -37,5 +37,7 @@ namespace IHSA_Backend.Collections
         }
         public Task DeleteAsync(int id) =>
             _baseCollection.DeleteAsync(id);
+        public Task<bool> ExistsAsync(int id) =>
+            _baseCollection.ExistsAsync(id);
     }
 }
