@@ -28,6 +28,33 @@ namespace IHSA_Backend.BLL
         {
             return _mapper.Map<EventElementOrderModel>(request);
         }
+
+        public new async Task<EventResponseModel> Create(EventRequestModel request)
+        {
+            EventModel entity = PreHandle(request);
+
+            await _collection.AddAsync(entity);
+
+            var responseEntity = PostHandle(entity);
+
+            responseEntity.EventOrder = responseEntity.EventOrder ?? new List<EventElementOrderResponseModel>();
+
+            foreach (EventElementOrderResponseModel eventOrderElementResponse in responseEntity.EventOrder)
+            {
+                foreach (EventPairResponseModel pair in eventOrderElementResponse.Pairs ?? new List<EventPairResponseModel>())
+                {
+                    var rider = await _riderCollection.GetByRiderIdAsync(pair.RiderId);
+
+                    if (rider != null && !rider.Equals(default(RiderModel)))
+                    {
+                        pair.RiderName = rider.FirstName + " " + rider.LastName;
+                        pair.RiderSchool = rider.PlaysFor;
+                    }
+                }
+            }
+
+            return responseEntity;
+        }
         public async Task<IList<EventElementOrderResponseModel>?> AddEventOrder(
             int id, EventElementOrderRequestModel request)
         {
