@@ -23,8 +23,15 @@ namespace IHSA_Backend.Collections
             _baseCollection.GetAllAsync();
         public Task<RiderModel?> GetAsync(int id) =>
             _baseCollection.GetAsync(id);
-        public Task<RiderModel> AddAsync(RiderModel entity) =>
-            _baseCollection.AddAsync(entity);
+        public async Task<RiderModel> AddAsync(RiderModel entity)
+        {
+            var currentRider = GetByRiderIdAsync(entity.RiderId);
+
+            if (currentRider != null && !currentRider.Equals(default(RiderModel)))
+                await _baseCollection.DeleteAsync(currentRider.Id);
+
+            return await _baseCollection.AddAsync(entity);
+        }
         public Task<RiderModel> UpdateAsync(RiderModel entity) =>
             _baseCollection.UpdateAsync(entity);
         public Task DeleteAsync(int id) =>
