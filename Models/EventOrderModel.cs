@@ -39,5 +39,21 @@ namespace IHSA_Backend.Models
         public string? HorseName { get; set; }
         public string? HorseProvider { get; set; }
     }
-    public class EventElementOrderResponseModel : EventElementOrderRequestModel { }
+    public class EventPairResponseModel
+    {
+        public int RiderId { get; set; } = -1;
+        public string? RiderName { get; set; }
+        public string? RiderSchool { get; set; }
+        public int? RiderPlacing { get; set; }
+        public int Order { get; set; }
+        public string? HorseName { get; set; }
+        public string? HorseProvider { get; set; }
+    }
+    public class EventElementOrderResponseModel
+    {
+        public string? ShowClass { get; set; }
+        public string? Class { get; set; }
+        public string? Section { get; set; }
+        public IList<EventPairResponseModel>? Pairs { get; set; }
+    }
 }

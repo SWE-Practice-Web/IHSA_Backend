@@ -31,5 +31,20 @@ namespace IHSA_Backend.Collections
             _baseCollection.DeleteAsync(id);
         public Task<bool> ExistsAsync(int id) =>
             _baseCollection.ExistsAsync(id);
+        public async Task<RiderModel?> GetByRiderIdAsync(int riderId)
+        {
+            var snapshot = await _collectionRef.GetSnapshotAsync();
+            
+            foreach (var documentSnapshot in snapshot.Documents)
+            {
+                if (!documentSnapshot.Exists)
+                    continue;
+
+                var entity = documentSnapshot.ConvertTo<RiderModel>();
+                if (entity != null && entity.RiderId == riderId)
+                    return entity;
+            }
+            return default;
+        }
     }
 }

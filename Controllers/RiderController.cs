@@ -33,6 +33,18 @@ namespace IHSA_Backend.Controllers
             return Ok(rider);
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> BatchCreate(IEnumerable<RiderRequestModel> riderRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            foreach (var rider in riderRequest)
+                await _riderRequestHandler.Create(rider);
+
+            return Ok();
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -61,6 +73,23 @@ namespace IHSA_Backend.Controllers
             return Ok(rider);
         }
 
+        [HttpGet("riderid/{id}")]
+        public async Task<IActionResult> GetByRiderIdAsync(int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_riderRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            var rider = await _riderRequestHandler.GetByRiderId(id);
+
+            if (rider == null || rider.Equals(default(RiderResponseModel)))
+                return NotFound();
+
+            return Ok(rider);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, RiderRequestModel riderRequest)
         {
@@ -75,6 +104,20 @@ namespace IHSA_Backend.Controllers
             return NoContent();
         }
 
+        [HttpPut("riderid/{id}")]
+        public async Task<IActionResult> UpdateByRiderIdAsync(int id, RiderRequestModel riderRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_riderRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            await _riderRequestHandler.UpdateByRiderId(id, riderRequest);
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -85,17 +128,16 @@ namespace IHSA_Backend.Controllers
 
             return NoContent();
         }
-        
-        [HttpPost("[action]")]
-        public async Task<IActionResult> BatchCreate(IEnumerable<RiderRequestModel> riderRequest)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            foreach (var rider in riderRequest)
-                await _riderRequestHandler.Create(rider);
-            
-            return Ok();
+        [HttpDelete("riderid/{id}")]
+        public async Task<IActionResult> DeleteByRiderIdAsync(int id)
+        {
+            if (_riderRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            await _riderRequestHandler.DeleteByRiderId(id);
+
+            return NoContent();
         }
     }
 }
