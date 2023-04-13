@@ -74,7 +74,7 @@ namespace IHSA_Backend.Controllers
         }
 
         [HttpGet("riderid/{id}")]
-        public async Task<IActionResult> GetByRiderIdAsync(int id)
+        public IActionResult GetByRiderId(int id)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -82,7 +82,7 @@ namespace IHSA_Backend.Controllers
             if (_riderRequestHandler.IsInvalidId(id))
                 return BadRequest(Constant.InvalidId);
 
-            var rider = await _riderRequestHandler.GetByRiderId(id);
+            var rider = _riderRequestHandler.GetByRiderId(id);
 
             if (rider == null || rider.Equals(default(RiderResponseModel)))
                 return NotFound();

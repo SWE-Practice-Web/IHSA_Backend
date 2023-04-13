@@ -39,11 +39,13 @@ namespace IHSA_Backend.BLL
 
             responseEntity.EventOrder = responseEntity.EventOrder ?? new List<EventElementOrderResponseModel>();
 
+            var riders = await _riderCollection.GetAllAsync();
+
             foreach (EventElementOrderResponseModel eventOrderElementResponse in responseEntity.EventOrder)
             {
                 foreach (EventPairResponseModel pair in eventOrderElementResponse.Pairs ?? new List<EventPairResponseModel>())
                 {
-                    var rider = await _riderCollection.GetByRiderIdAsync(pair.RiderId);
+                    var rider = riders.FirstOrDefault(r => r.RiderId == pair.RiderId);
 
                     if (rider != null && !rider.Equals(default(RiderModel)))
                     {
@@ -70,9 +72,11 @@ namespace IHSA_Backend.BLL
             if (entity.EventOrder == null)
                 entity.EventOrder = new List<EventElementOrderModel>();
 
+            var riders = await _riderCollection.GetAllAsync();
+
             foreach (EventPairModel pair in eventOrderElement.Pairs ?? new List<EventPairModel>())
             {
-                var rider = await _riderCollection.GetByRiderIdAsync(pair.RiderId);
+                var rider = riders.FirstOrDefault(r => r.RiderId == pair.RiderId);
 
                 if (rider != null && rider.Equals(default(RiderModel)))
                     throw new APIExceptions.RiderIdNotFoundException(
@@ -95,7 +99,7 @@ namespace IHSA_Backend.BLL
             {
                 foreach (EventPairResponseModel pair in eventOrderElementResponse.Pairs ?? new List<EventPairResponseModel>())
                 {
-                    var rider = await _riderCollection.GetByRiderIdAsync(pair.RiderId);
+                    var rider = riders.FirstOrDefault(r => r.RiderId == pair.RiderId);
 
                     if (rider != null && !rider.Equals(default(RiderModel)))
                     {
@@ -124,7 +128,9 @@ namespace IHSA_Backend.BLL
 
             if (entity.EventOrder == null)
                 entity.EventOrder = new List<EventElementOrderModel>();
-            
+
+            var riders = await _riderCollection.GetAllAsync();
+
             foreach (EventElementOrderModel eventOrderElement in eventOrderElements)
             {
                 var existingEventOrder = entity.EventOrder.FirstOrDefault(
@@ -132,8 +138,8 @@ namespace IHSA_Backend.BLL
 
                 foreach (EventPairModel pair in eventOrderElement.Pairs ?? new List<EventPairModel>())
                 {
-                    var rider = await _riderCollection.GetByRiderIdAsync(pair.RiderId);
-
+                    var rider = riders.FirstOrDefault(r => r.RiderId == pair.RiderId);
+                    
                     if (rider != null && rider.Equals(default(RiderModel)))
                         throw new APIExceptions.RiderIdNotFoundException(
                             StatusCodes.Status404NotFound, Constant.RiderIdNotFound);
@@ -153,7 +159,7 @@ namespace IHSA_Backend.BLL
             {
                 foreach (EventPairResponseModel pair in eventOrderElement.Pairs ?? new List<EventPairResponseModel>())
                 {
-                    var rider = await _riderCollection.GetByRiderIdAsync(pair.RiderId);
+                    var rider = riders.FirstOrDefault(r => r.RiderId == pair.RiderId);
 
                     if (rider != null && !rider.Equals(default(RiderModel)))
                     {

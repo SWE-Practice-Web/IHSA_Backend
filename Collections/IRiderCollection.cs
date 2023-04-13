@@ -10,6 +10,6 @@ namespace IHSA_Backend.Collections
         public new Task<RiderModel> UpdateAsync(RiderModel entity);
         public new Task DeleteAsync(int id);
         public new Task<bool> ExistsAsync(int id);
-        public Task<RiderModel?> GetByRiderIdAsync(int riderId);
+        public RiderModel? GetByRiderIdCache(int riderId);
     }
 }

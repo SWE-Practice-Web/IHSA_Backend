@@ -2,7 +2,6 @@
 using IHSA_Backend.Collections;
 using IHSA_Backend.Helper;
 using IHSA_Backend.Models;
-using static Grpc.Core.Metadata;
 
 namespace IHSA_Backend.BLL
 {
@@ -21,25 +20,25 @@ namespace IHSA_Backend.BLL
         }
         public async Task DeleteByRiderId(int riderId)
         {
-            var rider = await _collection.GetByRiderIdAsync(riderId);
+            var rider = _collection.GetByRiderIdCache(riderId);
 
             if (rider != null && !rider.Equals(default(RiderModel)))
                 await _collection.DeleteAsync(rider.Id);
         }
-        public async Task<RiderResponseModel?> GetByRiderId(int riderId)
+        public RiderResponseModel? GetByRiderId(int riderId)
         {
-            var rider = await _collection.GetByRiderIdAsync(riderId);
+            var rider = _collection.GetByRiderIdCache(riderId);
 
-            if (rider == null)
-                return null;
+            if (rider == null || rider.Equals(default(RiderModel)))
+                return default;
 
             return PostHandle(rider);
         }
         public async Task<RiderResponseModel?> UpdateByRiderId(int riderId, RiderRequestModel riderRequest)
         {
-            var existingRider = await _collection.GetByRiderIdAsync(riderId);
+            var existingRider = _collection.GetByRiderIdCache(riderId);
 
-            if (existingRider == null)
+            if (existingRider == null || existingRider.Equals(default(RiderModel)))
                 return null;
 
             var rider = PreHandle(riderRequest);

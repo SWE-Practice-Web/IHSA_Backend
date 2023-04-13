@@ -11,6 +11,8 @@ namespace IHSA_Backend.Collections
         private readonly IAppSettings _appSettings;
         private readonly CollectionReference _collectionRef;
         private readonly IBaseCollection<RiderModel> _baseCollection;
+        private IDictionary<int, RiderModel> _riderCache;
+
         public RiderCollection(
             IAppSettings appSettings,
             IFirestore firestore)
@@ -18,6 +20,12 @@ namespace IHSA_Backend.Collections
             _appSettings = appSettings;
             _collectionRef = firestore.GetCollection(appSettings.RiderCollection);
             _baseCollection = new BaseCollection<RiderModel>(_collectionRef);
+
+            _riderCache = new Dictionary<int, RiderModel>();
+            foreach (var rider in GetAllAsync().Result)
+            {
+                _riderCache.Add(rider.RiderId, rider);
+            }
         }
         public Task<IEnumerable<RiderModel>> GetAllAsync() =>
             _baseCollection.GetAllAsync();
@@ -25,32 +33,44 @@ namespace IHSA_Backend.Collections
             _baseCollection.GetAsync(id);
         public async Task<RiderModel> AddAsync(RiderModel entity)
         {
-            var currentRider = GetByRiderIdAsync(entity.RiderId);
+            var currentRider = GetByRiderIdCache(entity.RiderId);
 
             if (currentRider != null && !currentRider.Equals(default(RiderModel)))
                 await _baseCollection.DeleteAsync(currentRider.Id);
 
             return await _baseCollection.AddAsync(entity);
         }
-        public Task<RiderModel> UpdateAsync(RiderModel entity) =>
-            _baseCollection.UpdateAsync(entity);
-        public Task DeleteAsync(int id) =>
-            _baseCollection.DeleteAsync(id);
+        public async Task<RiderModel> UpdateAsync(RiderModel entity)
+        {
+            var rider = await _baseCollection.UpdateAsync(entity);
+
+            if (rider != null && !rider.Equals(default(RiderModel)) 
+                && entity != null && !entity.Equals(default(RiderModel)))
+            {
+                if (entity.RiderId != rider.RiderId)
+                    _riderCache.Remove(rider.RiderId);
+
+                _riderCache[rider.RiderId] = rider;
+            }
+
+            return rider ?? new RiderModel();
+        }
+        public async Task DeleteAsync(int id)
+        {
+            await _baseCollection.DeleteAsync(id);
+
+            foreach (var entry in _riderCache)
+            {
+                if (entry.Value.Id == id)
+                    _riderCache.Remove(entry.Key);
+            }
+        }
         public Task<bool> ExistsAsync(int id) =>
             _baseCollection.ExistsAsync(id);
-        public async Task<RiderModel?> GetByRiderIdAsync(int riderId)
+        public RiderModel? GetByRiderIdCache(int riderId)
         {
-            var snapshot = await _collectionRef.GetSnapshotAsync();
-            
-            foreach (var documentSnapshot in snapshot.Documents)
-            {
-                if (!documentSnapshot.Exists)
-                    continue;
-
-                var entity = documentSnapshot.ConvertTo<RiderModel>();
-                if (entity != null && entity.RiderId == riderId)
-                    return entity;
-            }
+            if (_riderCache.ContainsKey(riderId))
+                return _riderCache[riderId];
             return default;
         }
     }
