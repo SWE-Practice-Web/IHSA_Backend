@@ -38,6 +38,11 @@ namespace IHSA_Backend.Collections
             if (currentRider != null && !currentRider.Equals(default(RiderModel)))
                 await _baseCollection.DeleteAsync(currentRider.Id);
 
+            if (_riderCache.ContainsKey(entity.RiderId))
+                _riderCache.Remove(entity.RiderId);
+
+            _riderCache.Add(entity.RiderId, entity);
+
             return await _baseCollection.AddAsync(entity);
         }
         public async Task<RiderModel> UpdateAsync(RiderModel entity)
