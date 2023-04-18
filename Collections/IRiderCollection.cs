@@ -9,6 +9,7 @@ namespace IHSA_Backend.Collections
         public new Task<RiderModel> AddAsync(RiderModel entity);
         public new Task<IList<RiderModel>> AddBatchAsync(IList<RiderModel> entities);
         public new Task<RiderModel> UpdateAsync(RiderModel entity);
+        public new Task<IList<RiderModel>> UpdateBatchAsync(IList<RiderModel> entities);
         public new Task DeleteAsync(int id);
         public new Task<bool> ExistsAsync(int id);
         public RiderModel? GetByRiderIdCache(int riderId);

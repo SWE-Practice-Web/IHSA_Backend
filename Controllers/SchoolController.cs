@@ -75,6 +75,19 @@ namespace IHSA_Backend.Controllers
 
             return NoContent();
         }
+        [HttpPut("{id}/[action]")]
+        public async Task<IActionResult> BatchUpdateAsync(IList<int> ids, IList<SchoolRequestModel> schoolRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            // if (_schoolRequestHandler.IsInvalidId(id))
+            //    return BadRequest(Constant.InvalidId);
+
+            await _schoolRequestHandler.BatchUpdate(ids, schoolRequest);
+
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)

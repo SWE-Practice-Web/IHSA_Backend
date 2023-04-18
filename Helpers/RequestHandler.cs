@@ -71,6 +71,14 @@ namespace IHSA_Backend.Helper
 
             return PostHandle(entity);
         }
+        public async Task<IList<R>> BatchUpdate(IList<int> ids, IList<T> requests) // TODO use Ids
+        {
+            IList<M> entities = requests.Select(r => PreHandle(r)).ToList();
+
+            await _collection.UpdateBatchAsync(entities);
+
+            return entities.Select(e => PostHandle(e)).ToList();
+        }
         public async Task Delete(int id)
         {
             M? existingEntity = await _collection.GetAsync(id);

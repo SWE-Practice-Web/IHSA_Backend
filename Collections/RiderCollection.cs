@@ -74,6 +74,20 @@ namespace IHSA_Backend.Collections
 
             return rider ?? new RiderModel();
         }
+        public async Task<IList<RiderModel>> UpdateBatchAsync(IList<RiderModel> entites)
+        {
+            var riders = await _baseCollection.UpdateBatchAsync(entites);
+
+            foreach (var rider in riders)
+            {
+                if (_riderCache.ContainsKey(rider.RiderId))
+                    _riderCache.Remove(rider.RiderId);
+
+                _riderCache.Add(rider.RiderId, rider);
+            }
+
+            return riders;
+        }
         public async Task DeleteAsync(int id)
         {
             await _baseCollection.DeleteAsync(id);

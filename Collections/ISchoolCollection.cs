@@ -9,6 +9,7 @@ namespace IHSA_Backend.Collections
         public new Task<SchoolModel> AddAsync(SchoolModel entity);
         public new Task<IList<SchoolModel>> AddBatchAsync(IList<SchoolModel> entities);
         public new Task<SchoolModel> UpdateAsync(SchoolModel entity);
+        public new Task<IList<SchoolModel>> UpdateBatchAsync(IList<SchoolModel> entities);
         public new Task DeleteAsync(int id);
         public new Task<bool> ExistsAsync(int id);
     }

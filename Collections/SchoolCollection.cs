@@ -28,6 +28,8 @@ namespace IHSA_Backend.Collections
             _baseCollection.AddBatchAsync(entities);
         public Task<SchoolModel> UpdateAsync(SchoolModel entity) =>
             _baseCollection.UpdateAsync(entity);
+        public Task<IList<SchoolModel>> UpdateBatchAsync(IList<SchoolModel> entities) =>
+            _baseCollection.UpdateBatchAsync(entities);
         public Task DeleteAsync(int id) =>
             _baseCollection.DeleteAsync(id);
         public Task<bool> ExistsAsync(int id) =>

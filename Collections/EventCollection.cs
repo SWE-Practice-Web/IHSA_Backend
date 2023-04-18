@@ -28,6 +28,8 @@ namespace IHSA_Backend.Collections
             _baseCollection.AddBatchAsync(entities);
         public Task<EventModel> UpdateAsync(EventModel entity) =>
             _baseCollection.UpdateAsync(entity);
+        public Task<IList<EventModel>> UpdateBatchAsync(IList<EventModel> entities) =>
+            _baseCollection.UpdateBatchAsync(entities);
         public Task DeleteAsync(int id) =>
             _baseCollection.DeleteAsync(id);
         public Task<bool> ExistsAsync(int id) =>
