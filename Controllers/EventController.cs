@@ -113,5 +113,33 @@ namespace IHSA_Backend.Controllers
 
             return Ok(eventOrder);
         }
+
+        [HttpPut("{id}/[action]")]
+        public async Task<IActionResult> UpdateEventOrder(int id, EventElementOrderRequestModel eventElement)
+        {
+            if (_eventRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            var eventOrder = await _eventRequestHandler.AddEventOrder(id, eventElement);
+
+            if (eventOrder == null || eventOrder.Equals(default(EventElementOrderResponseModel)))
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(eventOrder);
+        }
+
+        [HttpPut("{id}/[action]")]
+        public async Task<IActionResult> BatchUpdateEventOrder(int id, IList<EventElementOrderRequestModel> eventElements)
+        {
+            if (_eventRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            var eventOrder = await _eventRequestHandler.BatchAddEventOrder(id, eventElements);
+
+            if (eventOrder == null || eventOrder.Equals(default(EventElementOrderResponseModel)))
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok(eventOrder);
+        }
     }
 }

@@ -166,7 +166,7 @@ namespace IHSA_Backend.BLL
                 foreach (EventPairModel pair in eventOrderElement.Pairs ?? new List<EventPairModel>())
                 {
                     var rider = riders.FirstOrDefault(r => r.RiderId == pair.RiderId);
-                    
+
                     if (rider != null && rider.Equals(default(RiderModel)))
                         throw new APIExceptions.RiderIdNotFoundException(
                             StatusCodes.Status404NotFound, Constant.RiderIdNotFound);
@@ -174,7 +174,7 @@ namespace IHSA_Backend.BLL
 
                 if (existingEventOrder != null)
                     entity.EventOrder.Remove(existingEventOrder);
-                
+
                 entity.EventOrder.Add(eventOrderElement);
             }
 
