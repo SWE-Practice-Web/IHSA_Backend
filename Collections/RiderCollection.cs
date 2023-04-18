@@ -45,6 +45,20 @@ namespace IHSA_Backend.Collections
 
             return await _baseCollection.AddAsync(entity);
         }
+        public async Task<IList<RiderModel>> AddBatchAsync(IList<RiderModel> entities)
+        {
+            var riders = await _baseCollection.AddBatchAsync(entities);
+
+            foreach (var rider in riders)
+            {
+                if (_riderCache.ContainsKey(rider.RiderId))
+                    _riderCache.Remove(rider.RiderId);
+
+                _riderCache.Add(rider.RiderId, rider);
+            }
+
+            return riders;
+        }
         public async Task<RiderModel> UpdateAsync(RiderModel entity)
         {
             var rider = await _baseCollection.UpdateAsync(entity);

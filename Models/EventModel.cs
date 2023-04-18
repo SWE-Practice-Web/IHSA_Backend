@@ -12,8 +12,8 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public DateTime EventTime { get; set; }
         [FirestoreProperty] public IList<EventElementOrderModel>? EventOrder { get; set; } = new List<EventElementOrderModel>();
         [FirestoreProperty] public int Zone { get; set; }
-        [FirestoreProperty] public string RidingPattern { get; set; }
-        [FirestoreProperty] public string Description { get; set; }
+        [FirestoreProperty] public string? RidingPattern { get; set; }
+        [FirestoreProperty] public string? Description { get; set; }
 
 
     }

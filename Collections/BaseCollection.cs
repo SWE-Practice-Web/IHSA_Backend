@@ -53,6 +53,23 @@ namespace IHSA_Backend.Collections
 
             return entity;
         }
+        public async Task<IList<T>> AddBatchAsync(IList<T> entities)
+        {
+            var entitiesList = new List<T>();
+
+            var batch = _collectionRef.Database.StartBatch();
+            foreach (var entity in entities)
+            {
+                entity.Id = nextAvailableId++;
+
+                var docReference = _collectionRef.Document(entity.Id.ToString());
+                batch.Set(docReference, entity);
+            }
+
+            await batch.CommitAsync();
+
+            return entitiesList;
+        }
         public async Task<T> UpdateAsync(T entity)
         {
             await _collectionRef.Document(entity.Id.ToString()).SetAsync(entity, SetOptions.MergeAll);

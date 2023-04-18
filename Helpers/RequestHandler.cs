@@ -40,6 +40,14 @@ namespace IHSA_Backend.Helper
 
             return PostHandle(entity);
         }
+        public async Task<IList<R>> BatchCreate(IList<T> requests)
+        {
+            IList<M> entities = requests.Select(r => PreHandle(r)).ToList();
+
+            await _collection.AddBatchAsync(entities);
+
+            return entities.Select(e => PostHandle(e)).ToList();
+        }
         public async Task<R?> Get(int id)
         {
             M? entity = await _collection.GetAsync(id);

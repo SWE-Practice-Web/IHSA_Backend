@@ -34,15 +34,14 @@ namespace IHSA_Backend.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> BatchCreate(IEnumerable<RiderRequestModel> riderRequest)
+        public async Task<IActionResult> BatchCreate(IList<RiderRequestModel> ridersRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            foreach (var rider in riderRequest)
-                await _riderRequestHandler.Create(rider);
+            var riders = await _riderRequestHandler.BatchCreate(ridersRequest);
 
-            return Ok();
+            return Ok(riders);
         }
 
         [HttpGet]

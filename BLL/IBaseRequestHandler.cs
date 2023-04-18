@@ -7,6 +7,7 @@ namespace IHSA_Backend.BLL
         where R : class
     {
         public Task<R> Create(T request);
+        public Task<IList<R>> BatchCreate(IList<T> requests);
         public Task<R?> Get(int id);
         public Task<R?> Update(int id, T request);
         public Task Delete(int id);
