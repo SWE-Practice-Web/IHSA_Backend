@@ -23,6 +23,9 @@ namespace IHSA_Backend.Models
         public DateTime EventTime { get; set; }
         public IList<EventElementOrderRequestModel>? EventOrder { get; set; }
         public int Zone { get; set; }
+        public string? RidingPattern { get; set; }
+        public string? Description { get; set; }
+
     }
     public class EventResponseModel : EventRequestModel
     {
