@@ -2,6 +2,7 @@
 using IHSA_Backend.Models;
 using IHSA_Backend.Services;
 using IHSA_Backend.Constants;
+using Newtonsoft.Json;
 
 namespace IHSA_Backend.Collections
 {
@@ -22,6 +23,13 @@ namespace IHSA_Backend.Collections
             if (maxDoc != null)
                 nextAvailableId = maxDoc.GetValue<int>(Constant.DatabaseId) + 1;
         }
+        public static Dictionary<string, TValue> ToDictionary<TValue>(object obj)
+        {
+            var json = JsonConvert.SerializeObject(obj);
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
+            return dictionary ?? new Dictionary<string, TValue>();
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var snapshot = await _collectionRef.GetSnapshotAsync();
@@ -85,7 +93,7 @@ namespace IHSA_Backend.Collections
             {
                 var documentReference = _collectionRef.Document(entity.Id.ToString());
 
-                batch.Update(documentReference, (IDictionary<string, object>)entity);
+                batch.Update(documentReference, ToDictionary<object>(entity));
                 entitiesList.Add(entity);
             }
 

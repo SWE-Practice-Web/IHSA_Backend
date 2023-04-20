@@ -14,10 +14,13 @@ namespace IHSA_Backend.Controllers
     public class SchoolController : ControllerBase
     {
         private readonly ISchoolRequestHandler _schoolRequestHandler;
+        private readonly IMapper _mapper;
         public SchoolController(
-            ISchoolRequestHandler schoolRequestHandler)
+            ISchoolRequestHandler schoolRequestHandler,
+            IMapper mapper)
         {
             _schoolRequestHandler = schoolRequestHandler;
+            _mapper = mapper;
         }
 
         [HttpPost("[action]")]
@@ -75,16 +78,17 @@ namespace IHSA_Backend.Controllers
 
             return NoContent();
         }
-        [HttpPut("{id}/[action]")]
-        public async Task<IActionResult> BatchUpdateAsync(IList<int> ids, IList<SchoolRequestModel> schoolRequest)
+        [HttpPut("[action]")]
+        public async Task<IActionResult> BatchUpdateAsync(IList<SchoolResponseModel> schoolRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // if (_schoolRequestHandler.IsInvalidId(id))
-            //    return BadRequest(Constant.InvalidId);
+            IList<int> ids = schoolRequest.Select(x => x.Id).ToList();
 
-            await _schoolRequestHandler.BatchUpdate(ids, schoolRequest);
+            var schoolRequests = _mapper.Map<IList<SchoolRequestModel>>(schoolRequest);
+
+            await _schoolRequestHandler.BatchUpdate(ids, schoolRequests);
 
             return NoContent();
         }
