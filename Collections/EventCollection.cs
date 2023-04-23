@@ -24,9 +24,15 @@ namespace IHSA_Backend.Collections
             _baseCollection.GetAsync(id);
         public Task<EventModel> AddAsync(EventModel entity) =>
             _baseCollection.AddAsync(entity);
+        public Task<IList<EventModel>> AddBatchAsync(IList<EventModel> entities) =>
+            _baseCollection.AddBatchAsync(entities);
         public Task<EventModel> UpdateAsync(EventModel entity) =>
             _baseCollection.UpdateAsync(entity);
+        public Task<IList<EventModel>> UpdateBatchAsync(IList<EventModel> entities) =>
+            _baseCollection.UpdateBatchAsync(entities);
         public Task DeleteAsync(int id) =>
             _baseCollection.DeleteAsync(id);
+        public Task<bool> ExistsAsync(int id) =>
+            _baseCollection.ExistsAsync(id);
     }
 }

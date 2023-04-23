@@ -18,5 +18,35 @@ namespace IHSA_Backend.BLL
             _collection = collection;
             _mapper = mapper;
         }
+        public async Task DeleteByRiderId(int riderId)
+        {
+            var rider = _collection.GetByRiderIdCache(riderId);
+
+            if (rider != null && !rider.Equals(default(RiderModel)))
+                await _collection.DeleteAsync(rider.Id);
+        }
+        public RiderResponseModel? GetByRiderId(int riderId)
+        {
+            var rider = _collection.GetByRiderIdCache(riderId);
+
+            if (rider == null || rider.Equals(default(RiderModel)))
+                return default;
+
+            return PostHandle(rider);
+        }
+        public async Task<RiderResponseModel?> UpdateByRiderId(int riderId, RiderRequestModel riderRequest)
+        {
+            var existingRider = _collection.GetByRiderIdCache(riderId);
+
+            if (existingRider == null || existingRider.Equals(default(RiderModel)))
+                return null;
+
+            var rider = PreHandle(riderRequest);
+            rider.Id = existingRider.Id;
+
+            await _collection.UpdateAsync(rider);
+
+            return PostHandle(rider);
+        }
     }
 }

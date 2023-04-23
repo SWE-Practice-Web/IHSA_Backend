@@ -2,6 +2,7 @@
 using IHSA_Backend.Models;
 using IHSA_Backend.Services;
 using IHSA_Backend.Constants;
+using Newtonsoft.Json;
 
 namespace IHSA_Backend.Collections
 {
@@ -22,6 +23,13 @@ namespace IHSA_Backend.Collections
             if (maxDoc != null)
                 nextAvailableId = maxDoc.GetValue<int>(Constant.DatabaseId) + 1;
         }
+        public static Dictionary<string, TValue> ToDictionary<TValue>(object obj)
+        {
+            var json = JsonConvert.SerializeObject(obj);
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(json);
+            return dictionary ?? new Dictionary<string, TValue>();
+        }
+
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             var snapshot = await _collectionRef.GetSnapshotAsync();
@@ -53,15 +61,55 @@ namespace IHSA_Backend.Collections
 
             return entity;
         }
+        public async Task<IList<T>> AddBatchAsync(IList<T> entities)
+        {
+            var entitiesList = new List<T>();
+
+            var batch = _collectionRef.Database.StartBatch();
+            foreach (var entity in entities)
+            {
+                entity.Id = nextAvailableId++;
+
+                var docReference = _collectionRef.Document(entity.Id.ToString());
+                batch.Set(docReference, entity);
+            }
+
+            await batch.CommitAsync();
+
+            return entitiesList;
+        }
         public async Task<T> UpdateAsync(T entity)
         {
             await _collectionRef.Document(entity.Id.ToString()).SetAsync(entity, SetOptions.MergeAll);
 
             return entity;
         }
+        public async Task<IList<T>> UpdateBatchAsync(IList<T> entities)
+        {
+            var entitiesList = new List<T>();
+
+            var batch = _collectionRef.Database.StartBatch();
+            foreach (var entity in entities)
+            {
+                var documentReference = _collectionRef.Document(entity.Id.ToString());
+
+                batch.Update(documentReference, ToDictionary<object>(entity));
+                entitiesList.Add(entity);
+            }
+
+            await batch.CommitAsync();
+
+            return entitiesList;
+        }
         public async Task DeleteAsync(int id)
         {
             await _collectionRef.Document(id.ToString()).DeleteAsync();
+        }
+        public async Task<bool> ExistsAsync(int id)
+        {
+            var snapshot = await _collectionRef.Document(id.ToString()).GetSnapshotAsync();
+
+            return snapshot.Exists;
         }
     }
 }

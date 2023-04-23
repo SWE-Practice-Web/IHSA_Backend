@@ -33,6 +33,17 @@ namespace IHSA_Backend.Controllers
             return Ok(rider);
         }
 
+        [HttpPost("[action]")]
+        public async Task<IActionResult> BatchCreate(IList<RiderRequestModel> ridersRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var riders = await _riderRequestHandler.BatchCreate(ridersRequest);
+
+            return Ok(riders);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -61,6 +72,23 @@ namespace IHSA_Backend.Controllers
             return Ok(rider);
         }
 
+        [HttpGet("riderid/{id}")]
+        public IActionResult GetByRiderId(int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_riderRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            var rider = _riderRequestHandler.GetByRiderId(id);
+
+            if (rider == null || rider.Equals(default(RiderResponseModel)))
+                return NotFound();
+
+            return Ok(rider);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(int id, RiderRequestModel riderRequest)
         {
@@ -75,6 +103,20 @@ namespace IHSA_Backend.Controllers
             return NoContent();
         }
 
+        [HttpPut("riderid/{id}")]
+        public async Task<IActionResult> UpdateByRiderIdAsync(int id, RiderRequestModel riderRequest)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (_riderRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            await _riderRequestHandler.UpdateByRiderId(id, riderRequest);
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
@@ -82,6 +124,17 @@ namespace IHSA_Backend.Controllers
                 return BadRequest(Constant.InvalidId);
 
             await _riderRequestHandler.Delete(id);
+
+            return NoContent();
+        }
+
+        [HttpDelete("riderid/{id}")]
+        public async Task<IActionResult> DeleteByRiderIdAsync(int id)
+        {
+            if (_riderRequestHandler.IsInvalidId(id))
+                return BadRequest(Constant.InvalidId);
+
+            await _riderRequestHandler.DeleteByRiderId(id);
 
             return NoContent();
         }
