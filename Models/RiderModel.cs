@@ -5,12 +5,9 @@ using IHSA_Backend.Models;
 namespace IHSA_Backend.Models
 {
     [FirestoreData]
-    public class RiderModel : IBaseModel
+    public class RiderModel : UserBaseModel
     {
-        [FirestoreProperty] public int Id { get; set; }
         [FirestoreProperty] public int RiderId { get; set; }
-        [FirestoreProperty] public string? FirstName { get; set; }
-        [FirestoreProperty] public string? LastName { get; set; }
         [FirestoreProperty] public bool IsHeightRider { get; set; } = false;
         [FirestoreProperty] public bool IsWeightRider { get; set; } = false;
         [FirestoreProperty] public double? Height { get; set; }
@@ -18,11 +15,9 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public IEnumerable<int>? ManagedBy { get; set; }
         [FirestoreProperty] public string? PlaysFor { get; set; }
     }
-    public class RiderRequestModel
+    public class RiderRequestModel : BaseUserRequestModel
     {
         public int? RiderId { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
         public bool IsHeightRider { get; set; }
         public bool IsWeightRider { get; set; }
         public double? Height { get; set; }
