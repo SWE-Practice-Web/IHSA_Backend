@@ -1,5 +1,6 @@
 ﻿using Google.Cloud.Firestore;
 using IHSA_Backend.Constants;
+using System.Text.Json.Serialization;
 
 namespace IHSA_Backend.Models
 {
@@ -22,6 +23,16 @@ namespace IHSA_Backend.Models
         public string? LastName { get; set; }
     }
     public class BaseUserResponseModel : BaseUserRequestModel
+    {
+        public int Id { get; set; }
+    }
+    public class UserRequestModel : BaseUserRequestModel
+    {
+        [JsonIgnore]
+        public string? Password { get; set; }
+        public Role Role { get; set; }
+    }
+    public class UserResponseModel : UserRequestModel
     {
         public int Id { get; set; }
     }

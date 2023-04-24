@@ -7,7 +7,7 @@ using System.Text;
 
 namespace IHSA_Backend.Helpers
 {
-    public class JWTUtils
+    public class JWTUtils : IJWTUtils
     {
         private readonly IAppSettings _appSettings;
 
@@ -26,11 +26,38 @@ namespace IHSA_Backend.Helpers
                     new Claim(ClaimTypes.Name, user.Id.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
-                Expires = System.DateTime.UtcNow.AddDays(7),
+                Expires = System.DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+        public int? ValidateToken(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                }, out SecurityToken validatedToken);
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+
+                if (userIdClaim != null)
+                    return int.Parse(userIdClaim);
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }

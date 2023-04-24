@@ -6,6 +6,7 @@ using IHSA_Backend.Collections;
 using IHSA_Backend.Mapping;
 using IHSA_Backend.BLL;
 using IHSA_Backend.Filters;
+using IHSA_Backend.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 var appSettings = new AppSettings(builder.Configuration);
@@ -35,6 +36,7 @@ var appSettings = new AppSettings(builder.Configuration);
     services.AddSingleton<IRiderRequestHandler, RiderRequestHandler>();
 
     // JWT
+    services.AddScoped<IJWTUtils, JWTUtils>();
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
