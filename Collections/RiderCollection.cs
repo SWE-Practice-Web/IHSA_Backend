@@ -27,10 +27,33 @@ namespace IHSA_Backend.Collections
                 _riderCache.Add(rider.RiderId, rider);
             }
         }
-        public Task<IEnumerable<RiderModel>> GetAllAsync() =>
-            _baseCollection.GetAllAsync();
-        public Task<RiderModel?> GetAsync(int id) =>
-            _baseCollection.GetAsync(id);
+        public async Task<IEnumerable<RiderModel>> GetAllAsync()
+        {
+            _riderCache = new Dictionary<int, RiderModel>();
+
+            var riders = await _baseCollection.GetAllAsync();
+            
+            foreach (var rider in GetAllAsync().Result)
+            {
+                _riderCache.Add(rider.RiderId, rider);
+            }
+
+            return riders;
+        }
+        public async Task<RiderModel?> GetAsync(int id)
+        {
+            var rider = await _baseCollection.GetAsync(id);
+
+            if (rider != null && !rider.Equals(default(RiderModel)))
+            {
+                if (_riderCache.ContainsKey(rider.RiderId))
+                    _riderCache.Remove(rider.RiderId);
+
+                _riderCache.Add(rider.RiderId, rider);
+            }
+
+            return rider;
+        }
         public async Task<RiderModel> AddAsync(RiderModel entity)
         {
             var currentRider = GetByRiderIdCache(entity.RiderId);
