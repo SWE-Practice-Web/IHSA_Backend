@@ -46,7 +46,10 @@ namespace IHSA_Backend.Helpers
                     ValidateAudience = false
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+                var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "name")?.Value;
+
+                foreach (var claim in jwtToken.Claims)
+                    Console.WriteLine(claim.Type + " " + claim.Value);
 
                 if (userIdClaim != null)
                     return int.Parse(userIdClaim);

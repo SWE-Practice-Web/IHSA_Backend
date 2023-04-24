@@ -1,5 +1,6 @@
 ﻿using IHSA_Backend.Collections;
 using IHSA_Backend.Helpers;
+using IHSA_Backend.Models;
 
 namespace IHSA_Backend.Middleware
 {
@@ -19,8 +20,10 @@ namespace IHSA_Backend.Middleware
 
                 if (userId != null)
                 {
-                    // attach user to context on successful jwt validation
-                    context.Items["User"] = userCollection.GetAsync((int)userId);
+                    var currentUser = await userCollection.GetAsync((int)userId);
+
+                    if (currentUser != null && !currentUser.Equals(default(UserModel)))
+                        context.Items["User"] = currentUser;
                 }
             }
 

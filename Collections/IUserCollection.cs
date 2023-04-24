@@ -12,5 +12,8 @@ namespace IHSA_Backend.Collections
         public new Task<IList<UserModel>> UpdateBatchAsync(IList<UserModel> entities);
         public new Task DeleteAsync(int id);
         public new Task<bool> ExistsAsync(int id);
+        public Task<UserModel?> GetByUsernameAsync(string username);
+        public Task<UserModel?> TryCacheAsync(int id);
+        public Task<UserModel?> TryCacheUsernameAsync(string username);
     }
 }

@@ -7,6 +7,8 @@ using IHSA_Backend.Mapping;
 using IHSA_Backend.BLL;
 using IHSA_Backend.Filters;
 using IHSA_Backend.Helpers;
+using Microsoft.OpenApi.Models;
+using IHSA_Backend.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 var appSettings = new AppSettings(builder.Configuration);
@@ -20,7 +22,30 @@ var appSettings = new AppSettings(builder.Configuration);
 
     // Swagger
     services.AddEndpointsApiExplorer();
-    services.AddSwaggerGen();
+    services.AddSwaggerGen(c =>
+    {
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please insert JWT with Bearer into field",
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey
+        });
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] { }
+            }
+        });
+    });
 
     services.AddSingleton<IAppSettings>(appSettings);
     services.AddSingleton<IFirestore, Firestore>();
@@ -29,14 +54,17 @@ var appSettings = new AppSettings(builder.Configuration);
     services.AddSingleton<IRiderCollection, RiderCollection>();
     services.AddSingleton<ISchoolCollection, SchoolCollection>();
     services.AddSingleton<IEventCollection, EventCollection>();
+    services.AddSingleton<IUserCollection, UserCollection>();
 
-    // Request Handlers
+    // Request Handlers (BLL)
     services.AddSingleton<ISchoolRequestHandler, SchoolRequestHandler>();
     services.AddSingleton<IEventRequestHandler, EventRequestHandler>();
     services.AddSingleton<IRiderRequestHandler, RiderRequestHandler>();
 
+    services.AddSingleton<IAuthRequestHandler, AuthRequestHandler>();
+
     // JWT
-    services.AddScoped<IJWTUtils, JWTUtils>();
+    services.AddSingleton<IJWTUtils, JWTUtils>();
     services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
@@ -89,6 +117,7 @@ var app = builder.Build();
     // JWT
     app.UseAuthentication();
     app.UseAuthorization();
+    app.UseMiddleware<JWTMiddleware>();
 
     app.MapControllers();
 }

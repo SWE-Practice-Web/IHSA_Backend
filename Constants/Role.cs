@@ -2,7 +2,7 @@
 {
     public enum Role
     {
-        Deafult = 0,
+        Default = 0,
         Rider = 1,
         Coach = 2,
         EventAdmin = 3,

@@ -11,9 +11,10 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public string? FirstName { get; set; }
         [FirestoreProperty] public string? LastName { get; set; }
     }
+    [FirestoreData]
     public class UserModel : UserBaseModel
     {
-        [FirestoreProperty] public string? UserName { get; set; }
+        [FirestoreProperty] public string? Username { get; set; }
         [FirestoreProperty] public string? Password { get; set; }
         [FirestoreProperty] public Role Role { get; set; }
     }
@@ -28,12 +29,24 @@ namespace IHSA_Backend.Models
     }
     public class UserRequestModel : BaseUserRequestModel
     {
-        [JsonIgnore]
+        public string? Username { get; set; }
         public string? Password { get; set; }
-        public Role Role { get; set; }
     }
     public class UserResponseModel : UserRequestModel
     {
         public int Id { get; set; }
+        public Role Role { get; set; } = Role.Default;
+    }
+
+    public class LoginRequestModel
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+    }
+
+    public class LoginResponseModel
+    {
+        public string? Token { get; set; }
+        public UserResponseModel? User { get; set; }
     }
 }
