@@ -22,7 +22,7 @@ namespace IHSA_Backend.Collections
             _baseCollection = new BaseCollection<RiderModel>(_collectionRef);
 
             _riderCache = new Dictionary<int, RiderModel>();
-            foreach (var rider in GetAllAsync().Result)
+            foreach (var rider in _baseCollection.GetAllAsync().Result)
             {
                 _riderCache.Add(rider.RiderId, rider);
             }
@@ -33,7 +33,7 @@ namespace IHSA_Backend.Collections
 
             var riders = await _baseCollection.GetAllAsync();
             
-            foreach (var rider in GetAllAsync().Result)
+            foreach (var rider in riders)
             {
                 _riderCache.Add(rider.RiderId, rider);
             }
