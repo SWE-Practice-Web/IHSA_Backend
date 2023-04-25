@@ -54,6 +54,9 @@ namespace IHSA_Backend.Controllers
             return NoContent();
         }
         
+        [AllowAnonymous]
+        [AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateAdmin(AdminRequestModel request)
         {
