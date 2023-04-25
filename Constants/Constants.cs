@@ -8,7 +8,7 @@
         public const string FirestoreIdEnvironmentName = "FIRESTORE_PROJECT_ID";
         public const string InvalidId = "Invalid id";
         public const string RiderIdNotFound = "Rider Id not found";
-        public const string UsernamePolicy = "Username must be non-empty and at least 8 characters";
+        public const string UsernamePolicy = "Username must be non-empty and at least 3 characters";
         public const string PasswordPolicy = "Password must be non-empty and at least 8 characters";
         public const string InvalidRole = "Invalid Role";
     }

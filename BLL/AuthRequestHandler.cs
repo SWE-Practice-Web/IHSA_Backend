@@ -33,17 +33,21 @@ namespace IHSA_Backend.BLL
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
                 throw new APIExceptions.HttpResponseException(StatusCodes.Status400BadRequest);
 
+            var userResponse = (AuthUserResponseModel)_mapper.Map<AdminResponseModel>(user);
+
+            userResponse.Role = Role.Admin;
+
             var response = new LoginResponseModel
             {
                 Token = _jwtUtils.GenerateToken(user),
-                User = _mapper.Map<AdminResponseModel>(user)
+                User = userResponse
             };
 
             return response;
         }
         public async Task<LoginResponseModel> AuthenticateAsync(LoginRequestModel request, Role role)
         {
-            if (request.Username == null || request.Username.Length < 8)
+            if (request.Username == null || request.Username.Length < 3)
                 throw new APIExceptions.UsernamePolicyException(
                     StatusCodes.Status400BadRequest, Constant.UsernamePolicy);
 

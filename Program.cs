@@ -60,8 +60,10 @@ var appSettings = new AppSettings(builder.Configuration);
     services.AddSingleton<ISchoolRequestHandler, SchoolRequestHandler>();
     services.AddSingleton<IEventRequestHandler, EventRequestHandler>();
     services.AddSingleton<IRiderRequestHandler, RiderRequestHandler>();
+    services.AddSingleton<IAdminCollection, AdminCollection>();
 
     services.AddSingleton<IAuthRequestHandler, AuthRequestHandler>();
+    services.AddSingleton<IAdminRequestHandler, AdminRequestHandler>();
 
     // JWT
     services.AddSingleton<IJWTUtils, JWTUtils>();

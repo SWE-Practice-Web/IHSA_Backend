@@ -13,14 +13,17 @@ namespace IHSA_Backend.Controllers
     public class UserController : ControllerBase
     {
         private readonly IAuthRequestHandler _authRequestHandler;
+        private readonly IAdminRequestHandler _adminRequestHandler;
         private IUserCollection _userCollection;
 
         public UserController(
             IAuthRequestHandler authRequestHandler,
+            IAdminRequestHandler adminRequestHandler,
             IUserCollection userCollection)
         {
             _authRequestHandler = authRequestHandler;
             _userCollection = userCollection;
+            _adminRequestHandler = adminRequestHandler;
         }
         
         [AllowAnonymous]
@@ -34,23 +37,8 @@ namespace IHSA_Backend.Controllers
 
             return Ok(response);
         }
-        
-        [AllowAnonymous]
-        [HttpPost("[action]")]
-        public async Task<IActionResult> Register(UserRequestModel request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            var response = await _authRequestHandler.RegisterAsync(request);
-
-            if (response == null)
-                return BadRequest();
-
-            return Ok(response);
-        }
-
-        [Authorize]
+        /*[Authorize]
         [HttpGet]
         public IActionResult testAuth()
         {
@@ -63,6 +51,21 @@ namespace IHSA_Backend.Controllers
                 return BadRequest();
 
             return Ok(user);
+        }*/
+
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateAdmin(AdminRequestModel request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var verifedRequest = _adminRequestHandler.VerifyAdminRequest(request);
+
+            var response = await _adminRequestHandler.Create(verifedRequest);
+            
+            return Ok(response);
         }
+
     }
 }

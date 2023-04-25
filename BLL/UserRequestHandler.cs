@@ -5,14 +5,14 @@ using IHSA_Backend.Models;
 
 namespace IHSA_Backend.BLL
 {
-    public class AdminRequestHandler : 
-        RequestHandler<IAdminCollection, AdminRequestModel, AdminResponseModel, AdminModel>,
-        IAdminRequestHandler
+    public class UserRequestHandler : 
+        RequestHandler<IUserCollection, UserRequestModel, UserResponseModel, UserModel>,
+        IUserRequestHandler
     {
-        private readonly IAdminCollection _collection;
+        private readonly IUserCollection _collection;
         private readonly IMapper _mapper;
-        public AdminRequestHandler(
-            IAdminCollection collection,
+        public UserRequestHandler(
+            IUserCollection collection,
             IMapper mapper) : base(collection, mapper)
         {
             _collection = collection;

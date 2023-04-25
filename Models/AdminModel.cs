@@ -11,9 +11,7 @@ namespace IHSA_Backend.Models
     }
     
     public class AdminRequestModel : AuthUserRequestModel
-    {
-        public new Role Role { get; } = Role.Admin;
-    }
+    { }
     public class AdminResponseModel : AuthUserResponseModel
     {
         public new Role Role { get; } = Role.Admin;
