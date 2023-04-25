@@ -38,22 +38,22 @@ namespace IHSA_Backend.Controllers
             return Ok(response);
         }
 
-        /*[Authorize]
+        [Authorize(Role.Default)]
         [HttpGet]
-        public IActionResult testAuth()
+        public IActionResult whoami()
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            var userRole = HttpContext.Items["Role"];
 
-            var user = _authRequestHandler.parseUser(HttpContext.Items["User"] as UserModel);
+            if (userRole == null)
+                return NoContent();
 
-            if (user == null)
-                return BadRequest();
+            if ((Role)userRole == Role.Admin)
+                return Ok(_adminRequestHandler.MapUser(
+                    HttpContext.Items["User"] as AdminModel));
 
-            return Ok(user);
-        }*/
-
-        [AllowAnonymous]
+            return NoContent();
+        }
+        
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateAdmin(AdminRequestModel request)
         {

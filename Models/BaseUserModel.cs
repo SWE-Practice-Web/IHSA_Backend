@@ -12,7 +12,7 @@ namespace IHSA_Backend.Models
     }
     public class AuthUserBaseModel : UserBaseModel
     {
-        [FirestoreProperty] public Role Role { get; } = Role.Default;
+        [FirestoreProperty] public Role Role { get; set; } = Role.Default;
         [FirestoreProperty] public string? Username { get; set; }
         [FirestoreProperty] public string? Password { get; set; }
     }

@@ -7,7 +7,7 @@ namespace IHSA_Backend.Models
     [FirestoreData]
     public class AdminModel : AuthUserBaseModel
     {
-        [FirestoreProperty] public new Role Role { get; } = Role.Admin;
+        [FirestoreProperty] public new Role Role { get; set; } = Role.Admin;
     }
     
     public class AdminRequestModel : AuthUserRequestModel

@@ -34,12 +34,14 @@ namespace IHSA_Backend.BLL
                 throw new APIExceptions.HttpResponseException(StatusCodes.Status400BadRequest);
 
             var userResponse = (AuthUserResponseModel)_mapper.Map<AdminResponseModel>(user);
+            var userAuth = (AuthUserBaseModel)user;
 
             userResponse.Role = Role.Admin;
+            userAuth.Role = Role.Admin;
 
             var response = new LoginResponseModel
             {
-                Token = _jwtUtils.GenerateToken(user),
+                Token = _jwtUtils.GenerateToken(userAuth),
                 User = userResponse
             };
 
