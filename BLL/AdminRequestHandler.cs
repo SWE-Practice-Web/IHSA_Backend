@@ -20,6 +20,10 @@ namespace IHSA_Backend.BLL
             _collection = collection;
             _mapper = mapper;
         }
+        public AdminResponseModel MapUser(AdminModel? user)
+        {
+            return _mapper.Map<AdminResponseModel>(user);
+        }
         public AdminRequestModel VerifyAdminRequest(AdminRequestModel request)
         {
             if (request.Username == null || request.Username.Length < 3)
