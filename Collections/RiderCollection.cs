@@ -24,6 +24,12 @@ namespace IHSA_Backend.Collections
             _riderCache = new Dictionary<int, RiderModel>();
             foreach (var rider in GetAllAsync().Result)
             {
+                if (_riderCache.ContainsKey(rider.RiderId))
+                {
+                    _riderCache.Remove(rider.RiderId);
+                    DeleteAsync(rider.Id).Wait();
+                }
+
                 _riderCache.Add(rider.RiderId, rider);
             }
         }
