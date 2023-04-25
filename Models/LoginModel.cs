@@ -9,6 +9,6 @@
     public class LoginResponseModel
     {
         public string? Token { get; set; }
-        public AuthUserResponseModel? User { get; set; }
+        public AuthUserResponseBaseModel? User { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public int Id { get; set; }
         [FirestoreProperty] public string? FirstName { get; set; }
         [FirestoreProperty] public string? LastName { get; set; }
+        [FirestoreProperty] public string? Email { get; set; }
     }
     public class AuthUserBaseModel : UserBaseModel
     {
@@ -20,17 +21,18 @@ namespace IHSA_Backend.Models
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+        public string? Email { get; set; }
     }
     public class BaseUserResponseModel : BaseUserRequestModel
     {
         public int Id { get; set; }
     }
-    public class AuthUserRequestModel : BaseUserRequestModel
+    public class AuthUserRequestBaseModel : BaseUserRequestModel
     {
         public string? Username { get; set; }
         public string? Password { get; set; }
     }
-    public class AuthUserResponseModel : BaseUserRequestModel
+    public class AuthUserResponseBaseModel : BaseUserRequestModel
     {
         public int Id { get; set; }
         public string? Username { get; set; }

@@ -28,7 +28,7 @@ namespace IHSA_Backend.Attributes
             var user = context.HttpContext.Items["User"] as AuthUserBaseModel;
             if (user != null)
             {
-                if ((int)user.Role > (int)_role)
+                if ((int)user.Role <= (int)_role)
                 {
                     context.Result = new JsonResult(
                         new { message = "Forbidden" })

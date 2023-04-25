@@ -10,9 +10,9 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public new Role Role { get; set; } = Role.Admin;
     }
     
-    public class AdminRequestModel : AuthUserRequestModel
+    public class AdminRequestModel : AuthUserRequestBaseModel
     { }
-    public class AdminResponseModel : AuthUserResponseModel
+    public class AdminResponseModel : AuthUserResponseBaseModel
     {
         public new Role Role { get; } = Role.Admin;
     }
