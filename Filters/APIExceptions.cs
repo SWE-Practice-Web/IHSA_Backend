@@ -21,8 +21,19 @@ namespace IHSA_Backend.Filters
         {
             public RiderIdNotFoundException(int statusCode, object? value = null) 
                 : base(statusCode, value)
-            {
-            }
+            { }
+        }
+        public class UsernamePolicyException : HttpResponseException
+        {
+            public UsernamePolicyException(int statusCode, object? value = null)
+                : base(statusCode, value)
+            { }
+        }
+        public class PasswordPolicyException : HttpResponseException
+        {
+            public PasswordPolicyException(int statusCode, object? value = null)
+                : base(statusCode, value)
+            { }
         }
     }
     public class HttpResponseExceptionFilter : IActionFilter, IOrderedFilter

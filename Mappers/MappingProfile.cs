@@ -31,6 +31,10 @@ namespace IHSA_Backend.Mapping
                 .ReverseMap();
             CreateMap<UserModel, UserResponseModel>()
                 .ReverseMap();
+            CreateMap<AdminModel, AdminRequestModel>()
+                .ReverseMap();
+            CreateMap<AdminModel, AdminResponseModel>()
+                .ReverseMap();
         }
     }
 }

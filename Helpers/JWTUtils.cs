@@ -1,3 +1,4 @@
+using IHSA_Backend.Constants;
 using IHSA_Backend.Models;
 using IHSA_Backend.Services;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +16,7 @@ namespace IHSA_Backend.Helpers
         {
             _appSettings = appSettings;
         }
-        public string GenerateToken(UserModel user)
+        public string GenerateToken(AuthUserBaseModel user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
@@ -32,7 +33,7 @@ namespace IHSA_Backend.Helpers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-        public int? ValidateToken(string token)
+        public TokenModel? ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
@@ -47,13 +48,15 @@ namespace IHSA_Backend.Helpers
                 }, out SecurityToken validatedToken);
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userIdClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "name")?.Value;
+                var roleClaim = jwtToken.Claims.FirstOrDefault(x => x.Type == "role")?.Value;
 
-                foreach (var claim in jwtToken.Claims)
-                    Console.WriteLine(claim.Type + " " + claim.Value);
-
-                if (userIdClaim != null)
-                    return int.Parse(userIdClaim);
-
+                if (userIdClaim != null && roleClaim != null)
+                    return new TokenModel
+                    {
+                        UserId = int.Parse(userIdClaim),
+                        Role = (Role)Enum.Parse(typeof(Role), roleClaim)
+                    };
+                
                 return null;
             }
             catch
