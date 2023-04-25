@@ -64,6 +64,7 @@ var appSettings = new AppSettings(builder.Configuration);
 
     services.AddSingleton<IAuthRequestHandler, AuthRequestHandler>();
     services.AddSingleton<IAdminRequestHandler, AdminRequestHandler>();
+    services.AddSingleton<IUserRequestHandler, UserRequestHandler>();
 
     // JWT
     services.AddSingleton<IJWTUtils, JWTUtils>();

@@ -60,7 +60,13 @@ namespace IHSA_Backend.BLL
         {
             IList<EventModel?> entities = (IList<EventModel?>)await _collection.GetAllAsync();
 
-            var responseEntities = entities.Select(e => PostHandle(e)).ToList();
+            var responseEntities = new List<EventResponseModel>();
+            
+            foreach (var entity in entities)
+            {
+                if (entity != null)
+                    responseEntities.Add(PostHandle(entity));
+            }
 
             var riders = await _riderCollection.GetAllAsync();
 

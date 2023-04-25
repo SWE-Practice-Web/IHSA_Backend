@@ -23,11 +23,11 @@ namespace IHSA_Backend.BLL
             _mapper = mapper;
         }
 
-        public async Task<UserResponseModel> UpdateAsync(string username, UserRequestModel userRequest)
+        public async Task<UserResponseModel> Update(string username, UserRequestModel userRequest)
         {
             if (userRequest.Username == null || userRequest.Username.Length < 3)
                 throw new APIExceptions.UsernamePolicyException(
-                StatusCodes.Status400BadRequest, Constant.UsernamePolicy);
+                    StatusCodes.Status400BadRequest, Constant.UsernamePolicy);
             
             var user = await _collection.GetByUsernameAsync(username);
 
@@ -50,6 +50,47 @@ namespace IHSA_Backend.BLL
             await _collection.UpdateAsync(userModel);
 
             return _mapper.Map<UserResponseModel>(userModel);
+        }
+
+        public new async Task<UserResponseModel?> Update(int id, UserRequestModel userRequest)
+        {
+            if (userRequest.Username == null || userRequest.Username.Length < 3)
+                throw new APIExceptions.UsernamePolicyException(
+                    StatusCodes.Status400BadRequest, Constant.UsernamePolicy);
+
+            var user = await _collection.GetAsync(id);
+
+            if (user == null)
+                throw new APIExceptions.HttpResponseException(StatusCodes.Status400BadRequest);
+
+            if (userRequest.Password == null)
+                userRequest.Password = user.Password;
+            else
+            {
+                if (userRequest.Password.Length < 8)
+                    throw new APIExceptions.PasswordPolicyException(
+                        StatusCodes.Status400BadRequest, Constant.PasswordPolicy);
+
+                userRequest.Password = BCrypt.Net.BCrypt.HashPassword(userRequest.Password);
+            }
+
+            var userModel = _mapper.Map<UserModel>(userRequest);
+
+            await _collection.UpdateAsync(userModel);
+
+            return _mapper.Map<UserResponseModel>(userModel);
+        }
+
+        public async Task DeleteByUsername(string username)
+        {
+            if (username == null || username.Length < 3)
+                throw new APIExceptions.UsernamePolicyException(
+                    StatusCodes.Status400BadRequest, Constant.UsernamePolicy);
+
+            var existingEntity = await _collection.GetByUsernameAsync(username);
+
+            if (existingEntity != null)
+                await _collection.DeleteAsync(existingEntity.Id);
         }
     }
 }

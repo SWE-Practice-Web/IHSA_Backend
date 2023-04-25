@@ -89,13 +89,13 @@ namespace IHSA_Backend.Controllers
             return Ok(user);
         }
 
-        [HttpPut("{username}")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync(string username, UserRequestModel userRequest)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _userRequestHandler.UpdateAsync(username, userRequest);
+            await _userRequestHandler.Update(username, userRequest);
 
             return NoContent();
         }
@@ -106,15 +106,15 @@ namespace IHSA_Backend.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            // await _userRequestHandler.UpdateAsync(username, userRequest);
+            await _userRequestHandler.Update(id, userRequest);
 
             return NoContent();
         }
 
-        [HttpDelete("{username}")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteAsync(string username)
         {
-            // await _userRequestHandler.DeleteAsync(username);
+            await _userRequestHandler.DeleteByUsername(username);
 
             return NoContent();
         }
@@ -122,7 +122,7 @@ namespace IHSA_Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
-            // await _userRequestHandler.Delete(id);
+            await _userRequestHandler.Delete(id);
 
             return NoContent();
         }

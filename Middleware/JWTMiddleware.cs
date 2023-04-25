@@ -28,16 +28,25 @@ namespace IHSA_Backend.Middleware
 
                 if (userInfo != null)
                 {
-                    if (userInfo.Role == Role.Admin)
-                    {
-                        var currentUser = await adminCollection.GetAsync(userInfo.UserId);
+                    // if (userInfo.Role == Role.Admin)
+                    // {
+                    //    var currentUser = await adminCollection.GetAsync(userInfo.UserId);
 
-                        if (currentUser != null && !currentUser.Equals(default(AdminModel)))
-                        {
-                            context.Items["User"] = currentUser;
-                            context.Items["Role"] = userInfo.Role;
-                        }
+                    //    if (currentUser != null && !currentUser.Equals(default(AdminModel)))
+                    //    {
+                    //        context.Items["User"] = currentUser;
+                    //        context.Items["Role"] = userInfo.Role;
+                    //    }
+                    // }
+                    var currentUser = await userCollection.GetAsync(userInfo.UserId);
+
+                    if (currentUser != null && !currentUser.Equals(default(UserModel)))
+                    {
+                        context.Items["User"] = currentUser;
+                        context.Items["Role"] = userInfo.Role;
                     }
+
+
                 }
             }
 
