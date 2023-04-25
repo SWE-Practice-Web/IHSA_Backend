@@ -47,6 +47,19 @@ namespace IHSA_Backend.Collections
         }
         public async Task<IList<RiderModel>> AddBatchAsync(IList<RiderModel> entities)
         {
+            foreach (var entity in entities)
+            {
+                if (_riderCache.ContainsKey(entity.RiderId))
+                {
+                    var currentRider = GetByRiderIdCache(entity.RiderId);
+
+                    if (currentRider != null && !currentRider.Equals(default(RiderModel)))
+                        await _baseCollection.DeleteAsync(currentRider.Id);
+                    
+                    _riderCache.Remove(entity.RiderId);
+                }
+            }
+
             var riders = await _baseCollection.AddBatchAsync(entities);
 
             foreach (var rider in riders)
