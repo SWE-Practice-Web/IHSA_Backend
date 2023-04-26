@@ -29,12 +29,24 @@ namespace IHSA_Backend.Controllers
         
         [AllowAnonymous]
         [HttpPost("[action]")]
-        public async Task<IActionResult> Authenticate(LoginRequestModel request)
+        public async Task<IActionResult> Login(LoginRequestModel request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             var response = await _authRequestHandler.AuthenticateAsync(request);
+
+            return Ok(response);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Register(UserRequestModel request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var response = await _authRequestHandler.RegisterAsync(request);
 
             return Ok(response);
         }
