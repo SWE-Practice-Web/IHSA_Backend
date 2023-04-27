@@ -100,7 +100,7 @@ namespace IHSA_Backend.BLL
 
             return response;
         }
-        public async Task<UserResponseModel > RegisterAsync(UserRequestModel request)
+        public async Task<UserResponseModel > RegisterAsync(RegisterUserRequestModel request)
         {
             if (request.Username == null || request.Username.Length < 3)
                 throw new APIExceptions.UsernamePolicyException(

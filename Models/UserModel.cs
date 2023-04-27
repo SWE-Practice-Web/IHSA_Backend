@@ -9,6 +9,8 @@ namespace IHSA_Backend.Models
     { }
     public class UserRequestModel : AuthUserRequestBaseModel
     { }
+    public class RegisterUserRequestModel : RegisterAuthUserRequestBaseModel
+    { }
     public class UserResponseModel : AuthUserResponseBaseModel
     { }
 }

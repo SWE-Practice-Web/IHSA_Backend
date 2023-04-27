@@ -41,7 +41,7 @@ namespace IHSA_Backend.Controllers
 
         [AllowAnonymous]
         [HttpPost("[action]")]
-        public async Task<IActionResult> Register(UserRequestModel request)
+        public async Task<IActionResult> Register(RegisterUserRequestModel request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

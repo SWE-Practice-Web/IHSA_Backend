@@ -33,6 +33,11 @@ namespace IHSA_Backend.Models
         public string? Password { get; set; }
         public Role Role { get; set; } = Role.Default;
     }
+    public class RegisterAuthUserRequestBaseModel : BaseUserRequestModel
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+    }
     public class AuthUserResponseBaseModel : BaseUserRequestModel
     {
         public int Id { get; set; }

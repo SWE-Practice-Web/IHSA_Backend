@@ -9,6 +9,6 @@ namespace IHSA_Backend.BLL
         public Task<LoginResponseModel> AuthenticateAdminAsync(LoginRequestModel request);
         public Task<LoginResponseModel> AuthenticateAsync(LoginRequestModel request, Role role);
         public Task<LoginResponseModel> AuthenticateAsync(LoginRequestModel request);
-        public Task<UserResponseModel> RegisterAsync(UserRequestModel request);
+        public Task<UserResponseModel> RegisterAsync(RegisterUserRequestModel request);
     }
 }
