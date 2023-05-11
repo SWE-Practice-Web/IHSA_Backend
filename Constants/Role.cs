@@ -1,8 +1,8 @@
-﻿namespace IHSA_Backend.Enums
+﻿namespace IHSA_Backend.Constants
 {
     public enum Role
     {
-        User = 0,
+        Default = 0,
         Rider = 1,
         Coach = 2,
         EventAdmin = 3,

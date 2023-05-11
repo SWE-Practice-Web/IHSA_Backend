@@ -1,5 +1,4 @@
 using Google.Cloud.Firestore;
-using IHSA_Backend.Enums;
 using IHSA_Backend.Models;
 
 namespace IHSA_Backend.Models
@@ -14,8 +13,6 @@ namespace IHSA_Backend.Models
         [FirestoreProperty] public int Zone { get; set; }
         [FirestoreProperty] public string? RidingPattern { get; set; }
         [FirestoreProperty] public string? Description { get; set; }
-
-
     }
     public class EventRequestModel
     {
@@ -25,7 +22,6 @@ namespace IHSA_Backend.Models
         public int Zone { get; set; }
         public string? RidingPattern { get; set; }
         public string? Description { get; set; }
-
     }
     public class EventResponseModel : EventRequestModel
     {

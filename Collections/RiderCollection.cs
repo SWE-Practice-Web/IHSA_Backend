@@ -24,6 +24,12 @@ namespace IHSA_Backend.Collections
             _riderCache = new Dictionary<int, RiderModel>();
             foreach (var rider in _baseCollection.GetAllAsync().Result)
             {
+                if (_riderCache.ContainsKey(rider.RiderId))
+                {
+                    _riderCache.Remove(rider.RiderId);
+                    DeleteAsync(rider.Id).Wait();
+                }
+
                 _riderCache.Add(rider.RiderId, rider);
             }
         }
@@ -70,6 +76,19 @@ namespace IHSA_Backend.Collections
         }
         public async Task<IList<RiderModel>> AddBatchAsync(IList<RiderModel> entities)
         {
+            foreach (var entity in entities)
+            {
+                if (_riderCache.ContainsKey(entity.RiderId))
+                {
+                    var currentRider = GetByRiderIdCache(entity.RiderId);
+
+                    if (currentRider != null && !currentRider.Equals(default(RiderModel)))
+                        await _baseCollection.DeleteAsync(currentRider.Id);
+                    
+                    _riderCache.Remove(entity.RiderId);
+                }
+            }
+
             var riders = await _baseCollection.AddBatchAsync(entities);
 
             foreach (var rider in riders)

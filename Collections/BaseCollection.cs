@@ -10,7 +10,7 @@ namespace IHSA_Backend.Collections
         where T : IBaseModel
     {
         private readonly CollectionReference _collectionRef;
-        private int nextAvailableId = 0;
+        public int nextAvailableId = 0;
         public BaseCollection(CollectionReference collectionRef)
         {
             _collectionRef = collectionRef;

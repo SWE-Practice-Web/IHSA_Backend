@@ -1,11 +1,10 @@
 ﻿using Google.Cloud.Firestore;
-using IHSA_Backend.Enums;
 using IHSA_Backend.Models;
 
 namespace IHSA_Backend.Models
 {
     [FirestoreData]
-    public class RiderModel : BaseUserModel
+    public class RiderModel : UserBaseModel
     {
         [FirestoreProperty] public int RiderId { get; set; }
         [FirestoreProperty] public bool IsHeightRider { get; set; } = false;

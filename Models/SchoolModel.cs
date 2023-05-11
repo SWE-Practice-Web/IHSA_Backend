@@ -1,5 +1,4 @@
 ﻿using Google.Cloud.Firestore;
-using IHSA_Backend.Enums;
 using System.Runtime.InteropServices;
 
 namespace IHSA_Backend.Models

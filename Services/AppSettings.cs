@@ -43,5 +43,17 @@
         {
             get => _configuration["EventCollection"];
         }
+        public string AdminCollection
+        {
+            get => _configuration["AdminCollection"];
+        }
+        public string CoachCollection
+        {
+            get => _configuration["CoachCollection"];
+        }
+        public string EventAdminCollection
+        {
+            get => _configuration["EventAdminCollection"];
+        }
     }
 }
