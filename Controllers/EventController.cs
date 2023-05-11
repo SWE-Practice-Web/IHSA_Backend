@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IHSA_Backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class EventController : ControllerBase
@@ -33,6 +34,7 @@ namespace IHSA_Backend.Controllers
             return Ok(_event);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -44,6 +46,7 @@ namespace IHSA_Backend.Controllers
             return Ok(_events);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IHSA_Backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class SchoolController : ControllerBase
@@ -37,6 +38,7 @@ namespace IHSA_Backend.Controllers
             return Ok(school);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -48,6 +50,7 @@ namespace IHSA_Backend.Controllers
             return Ok(schools);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {

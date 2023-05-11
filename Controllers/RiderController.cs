@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IHSA_Backend.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class RiderController : ControllerBase
@@ -44,6 +45,7 @@ namespace IHSA_Backend.Controllers
             return Ok(riders);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllAsync()
         {
@@ -55,6 +57,7 @@ namespace IHSA_Backend.Controllers
             return Ok(riders);
         }
 
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
@@ -72,6 +75,7 @@ namespace IHSA_Backend.Controllers
             return Ok(rider);
         }
 
+        [AllowAnonymous]
         [HttpGet("riderid/{id}")]
         public IActionResult GetByRiderId(int id)
         {
