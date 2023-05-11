@@ -11,32 +11,16 @@ namespace IHSA_Backend.Services
         {
             _appSettings = appSettings;
 
-            string firestoreId;
+            var firestoreId = _appSettings.FirestoreProjectId;
 
-            if (Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name) != null)
-            {
-                // Workaround for docker support
-                var tempFile = Path.GetTempFileName();
+            // Workaround since google services need a file path
+            var tempFile = Path.ChangeExtension(
+                Path.GetTempFileName(), "json");
+            
+            File.WriteAllBytes(tempFile, 
+                Convert.FromBase64String(_appSettings.GACEnvironmentB64));
 
-                tempFile = Path.ChangeExtension(tempFile, "json");
-
-                var b64GAC = Environment.GetEnvironmentVariable(Constant.GACEnvironmentB64Name) ?? string.Empty;
-
-                File.WriteAllBytes(tempFile, 
-                    Convert.FromBase64String(b64GAC));
-
-                Environment.SetEnvironmentVariable(Constant.GACEnvironmentName, tempFile);
-
-                firestoreId = Environment.GetEnvironmentVariable(Constant.FirestoreIdEnvironmentName) ?? string.Empty;
-            }
-            else
-            {
-                Environment.SetEnvironmentVariable(
-                    Constant.GACEnvironmentName,
-                    _appSettings.GoogleApplicationCredentialsPath);
-
-                firestoreId = _appSettings.FirestoreProjectId;
-            }
+            Environment.SetEnvironmentVariable(Constant.GACEnvironmentName, tempFile);
             
             _firestoreDb = FirestoreDb.Create(firestoreId);
         }

@@ -6,7 +6,7 @@
         public string JWTAudience { get; }
         public string JWTSecret { get; }
         public string FirestoreProjectId { get; }
-        public string GoogleApplicationCredentialsPath { get; }
+        public string GACEnvironmentB64 { get; }
         public string UserCollection { get; }
         public string RiderCollection { get; }
         public string SchoolCollection { get; }

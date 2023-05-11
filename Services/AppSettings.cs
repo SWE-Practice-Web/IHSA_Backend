@@ -23,9 +23,9 @@
         {
             get => _configuration["FirestoreProjectId"];
         }
-        public string GoogleApplicationCredentialsPath
+        public string GACEnvironmentB64
         {
-            get => _configuration["GoogleApplicationCredentialsPath"];
+            get => _configuration["GACEnvironmentB64"];
         }
         public string UserCollection
         {

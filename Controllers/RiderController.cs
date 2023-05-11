@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IHSA_Backend.Attributes;
 using IHSA_Backend.BLL;
 using IHSA_Backend.Collections;
 using IHSA_Backend.Constants;
